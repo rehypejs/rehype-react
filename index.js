@@ -4,7 +4,6 @@
  * Dependencies.
  */
 
-var toHAST = require('mdast-util-to-hast');
 var sanitize = require('hast-util-sanitize');
 var toH = require('hast-to-hyperscript');
 
@@ -79,7 +78,7 @@ function plugin(processor, options) {
             type: 'element',
             tagName: 'div',
             properties: {},
-            children: toHAST(node).children
+            children: node.children
         };
 
         if (clean) {
