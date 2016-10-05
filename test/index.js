@@ -14,6 +14,7 @@ var toc = require('remark-toc');
 var github = require('remark-github');
 var commonmark = require('commonmark.json');
 var File = require('vfile');
+var rehype = require('remark-rehype');
 var reactRenderer = require('..');
 
 /*
@@ -86,7 +87,7 @@ function isHidden(filePath) {
      * @return {string}
      */
     function process(file, config) {
-        var vdom = remark().use(reactRenderer, config).process(file, config).contents;
+        var vdom = remark().use(rehype).use(reactRenderer, config).process(file, config).contents;
         return React.renderToStaticMarkup(vdom);
     }
 
@@ -128,7 +129,7 @@ function isHidden(filePath) {
 
             it('should not throw if not passed options', function () {
                 assert.doesNotThrow(function () {
-                    reactRenderer(remark());
+                    reactRenderer(remark().use(rehype));
                 });
             });
 
@@ -152,7 +153,7 @@ function isHidden(filePath) {
                 }
 
                 function reactKeys(text) {
-                    var vdom = remark().use(reactRenderer, {createElement: React.createElement}).process(markdown, {}).contents;
+                    var vdom = remark().use(rehype).use(reactRenderer, {createElement: React.createElement}).process(markdown, {}).contents;
                     return extractKeys(vdom);
                 }
 
@@ -166,7 +167,7 @@ function isHidden(filePath) {
             it('should use custom components', function() {
                 var markdown = '# Foo';
 
-                var vdom = remark().use(reactRenderer, {
+                var vdom = remark().use(rehype).use(reactRenderer, {
                     createElement: React.createElement,
                     remarkReactComponents: {
                         h1: function(props) {
@@ -180,7 +181,7 @@ function isHidden(filePath) {
 
             it("does not sanitize input when 'sanitize' option is set to false", function() {
                 var markdown = '```empty\n```';
-                var vdom = remark().use(reactRenderer, {
+                var vdom = remark().use(rehype).use(reactRenderer, {
                     createElement: React.createElement,
                     sanitize: false
                 }).process(markdown, {}).contents;
