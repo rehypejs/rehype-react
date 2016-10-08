@@ -22,7 +22,7 @@ var TABLE_ELEMENTS = ['table', 'thead', 'tbody', 'tfoot', 'tr'];
  * @param {Object?} [options]
  * @param {Object?} [options.sanitize]
  *   - Sanitation schema.
- * @param {Object?} [options.remarkReactComponents]
+ * @param {Object?} [options.rehypeReactComponents]
  *   - Components.
  * @param {string?} [options.prefix]
  *   - Key prefix.
@@ -32,7 +32,7 @@ var TABLE_ELEMENTS = ['table', 'thead', 'tbody', 'tfoot', 'tr'];
 function plugin(processor, options) {
     var settings = options || {};
     var createElement = settings.createElement || globalCreateElement;
-    var components = settings.remarkReactComponents || {};
+    var components = settings.rehypeReactComponents || {};
     var clean = settings.sanitize !== false;
     var scheme = clean && (typeof settings.sanitize !== 'boolean') ? settings.sanitize : null;
 

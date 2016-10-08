@@ -169,7 +169,7 @@ function isHidden(filePath) {
 
                 var vdom = remark().use(rehype).use(reactRenderer, {
                     createElement: React.createElement,
-                    remarkReactComponents: {
+                    rehypeReactComponents: {
                         h1: function(props) {
                             return React.createElement('h2', props)
                         }
