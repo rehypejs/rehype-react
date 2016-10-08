@@ -2,13 +2,10 @@
   "name": "rehype-react",
   "description": "Compile Hast tree to React with remark",
   "version": "1.0.0",
-  "author": [{
+  "author": {
     "name": "Titus Wormer",
     "email": "tituswormer@gmail.com"
-  }, {
-    "name": "rhysd",
-    "email": "lin90162@yahoo.co.jp"
-  }],
+  },
   "contributors": [
     "Tom MacWright <tom@macwright.org>",
     "Titus Wormer <tituswormer@gmail.com>",
@@ -16,7 +13,8 @@
     "Juho Vepsalainen <bebraw@gmail.com>",
     "Jason Trill <jason@jasontrill.com>",
     "Tsuyusato Kitsune <make.just.on@gmail.com>",
-    "Jeremy Stucki <jeremy@interactivethings.com>"
+    "Jeremy Stucki <jeremy@interactivethings.com>",
+    "rhysd <lin90162@yahoo.co.jp>"
   ],
   "dependencies": {
     "hast-to-hyperscript": "^2.0.1",
@@ -51,9 +49,9 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/mapbox/remark-react.git"
+    "url": "https://github.com/rhysd/rehype-react.git"
   },
-  "bugs": "https://github.com/mapbox/remark-react/issues",
+  "bugs": "https://github.com/rhysd/rehype-react/issues",
   "scripts": {
     "build-md": "remark . --output --quiet",
     "lint": "npm run lint-api && npm run lint-style",

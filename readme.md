@@ -1,8 +1,8 @@
-# remark-react
+# rehype-react
 
-[![Build Status](https://travis-ci.org/mapbox/remark-react.svg?branch=master)](https://travis-ci.org/mapbox/remark-react)
+[![Build Status](https://travis-ci.org/rhysd/rehype-react.svg?branch=master)](https://travis-ci.org/rhysd/rehype-react)
 
-**remark-react** compiles markdown to React.  Built on [**remark**](https://github.com/wooorm/remark),
+**rehype-react** compiles HAST (HTML Abstract Syntax Tree) to React.  Built on [**remark**](https://github.com/wooorm/remark),
 an extensively tested and pluggable parser.
 
 **Why?** Using innerHTML and [dangerouslySetInnerHTML](https://facebook.github.io/react/tips/dangerously-set-inner-html.html) in
@@ -18,7 +18,7 @@ in an application without using `dangerouslySetInnerHTML`.
 [npm](https://docs.npmjs.com/cli/install):
 
 ```bash
-npm install remark-react
+npm install rehype-react
 ```
 
 ## Table of Contents
@@ -46,12 +46,12 @@ Let’s say `example.js` looks as follows:
 
 ```js
 var React = require('react'),
-    remark = require('remark'),
-    reactRenderer = require('remark-react');
+    rehype = require('rehype'),
+    reactRenderer = require('rehype-react');
 
 var App = React.createClass({
     getInitialState() {
-        return { text: '# hello world' };
+        return { text: '<html><body>hello, world</body>,</html>' };
     },
     onChange(e) {
         this.setState({ text: e.target.value });
@@ -62,7 +62,7 @@ var App = React.createClass({
                 value={this.state.text}
                 onChange={this.onChange} />
             <div id='preview'>
-                {remark().use(reactRenderer).process(this.state.text).contents}
+                {rehype().use(reactRenderer).process(this.state.text).contents}
             </div>
         </div>);
     }
@@ -87,14 +87,14 @@ All options, including the `options` object itself, are optional:
 *   `createElement` (`Function`, default: `require('react').createElement`)
     — Function to use to create elements.
 
-*   `remarkReactComponents` (`object`, default: `undefined`)
+*   `rehypeReactComponents` (`object`, default: `undefined`)
     — Provides a way to override default elements (`<a>`, `<p>`, etc)
     by defining an object comprised of `element: Component` key-value
     pairs. For example, to output `<MyLink>` components instead of
     `<a>`, and `<MyParagraph>` instead of `<p>`:
 
     ```js
-    remarkReactComponents: {
+    rehypeReactComponents: {
       a: MyLink,
       p: MyParagraph
     }
@@ -104,7 +104,7 @@ These can passed to `remark.use()` as a second argument.
 
 ## Integrations
 
-**remark-react** works great with:
+**rehype-react** works great with:
 
 *   [**remark-toc**](https://github.com/wooorm/remark-toc), which generates
     tables of contents;
@@ -121,4 +121,4 @@ as HTML attributes on the compiled tag.
 
 ## License
 
-[MIT](LICENSE) © [Titus Wormer](http://wooorm.com), modified by [Tom MacWright](http://www.macwright.org/) and [Mapbox](https://www.mapbox.com/)
+[MIT](LICENSE) © [Titus Wormer](http://wooorm.com), modified by [Tom MacWright](http://www.macwright.org/) and [Mapbox](https://www.mapbox.com/) and [rhysd](https://rhysd.github.io)
