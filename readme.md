@@ -1,124 +1,113 @@
 # rehype-react
 
-[![Build Status](https://travis-ci.org/rhysd/rehype-react.svg?branch=master)](https://travis-ci.org/rhysd/rehype-react)
+[![Build Status][travis-badge]][travis-status]
 
-**rehype-react** compiles HAST (HTML Abstract Syntax Tree) to React.  Built on [**remark**](https://github.com/wooorm/remark),
-an extensively tested and pluggable parser.
+Compiles [HAST][] to [React][] with [**rehype**][rehype].
 
-**Why?** Using innerHTML and [dangerouslySetInnerHTML](https://facebook.github.io/react/tips/dangerously-set-inner-html.html) in
-[React.js](http://facebook.github.io/react/) is a common cause of [XSS](https://en.wikipedia.org/wiki/Cross-site_scripting)
-attacks: user input can include script tags and other kinds of active
-content that reaches across domains and harms security. remark-react
-builds a DOM in React, using [React.createElement](https://facebook.github.io/react/docs/top-level-api.html):
-this means that you can display parsed & formatted Markdown content
-in an application without using `dangerouslySetInnerHTML`.
+## Install
 
-## Installation
-
-[npm](https://docs.npmjs.com/cli/install):
+[npm][]:
 
 ```bash
 npm install rehype-react
 ```
 
-## Table of Contents
+## Use
 
-*   [Programmatic](#programmatic)
-
-    *   [remark.use(react, options)](#remarkusereact-options)
-
-*   [Configuration](#configuration)
-
-*   [Integrations](#integrations)
-
-*   [License](#license)
-
-## Programmatic
-
-### [remark](https://github.com/wooorm/remark#api).[use](https://github.com/wooorm/remark#remarkuseplugin-options)(react, [options](#configuration))
-
-**Parameters**
-
-*   `react` — This plugin;
-*   `options` (`Object?`) — See [below](#configuration).
-
-Let’s say `example.js` looks as follows:
+The following example shows how to create a markdown input textarea,
+and corresponding rendered HTML output.  The markdown is processed
+to add a Table of Contents and to render GitHub mentions (and other
+cool GH features), and to highlight code blocks.
 
 ```js
-var React = require('react'),
-    rehype = require('rehype'),
-    reactRenderer = require('rehype-react');
+var react = require('react');
+var unified = require('unified');
+var markdown = require('remark-parse');
+var toc = require('remark-toc');
+var github = require('remark-github');
+var remark2rehype = require('remark-rehype');
+var highlight = require('rehype-highlight');
+var rehype2react = require('rehype-react');
+
+var processor = unified()
+  .use(markdown)
+  .use(toc)
+  .use(github)
+  .use(remark2rehype)
+  .use(highlight)
+  .use(rehype2react);
 
 var App = React.createClass({
-    getInitialState() {
-        return { text: '<html><body>hello, world</body>,</html>' };
-    },
-    onChange(e) {
-        this.setState({ text: e.target.value });
-    },
-    render() {
-        return (<div>
-            <textarea
-                value={this.state.text}
-                onChange={this.onChange} />
-            <div id='preview'>
-                {rehype().use(reactRenderer).process(this.state.text).contents}
-            </div>
-        </div>);
-    }
+  getInitialState() {
+    return {text: '# Hello\n\n## Table of Contents\n\n## @rhysd'};
+  },
+  onChange(ev) {
+    this.setState({text: ev.target.value});
+  },
+  render() {
+    return (<div>
+      <textarea
+        value={this.state.text}
+        onChange={this.onChange} />
+      <div id='preview'>
+        {processor.process(this.state.text).contents}
+      </div>
+    </div>);
+  }
 });
 
 React.render(<App />, document.getElementById('app'));
 ```
 
-## Configuration
+Yields (in `id="preview"`, on first render):
 
-All options, including the `options` object itself, are optional:
+```html
+<div><h1 id="hello">Hello</h1>
+<h2 id="table-of-contents">Table of Contents</h2>
+<ul>
+<li><a href="#rhysd">@rhysd</a></li>
+</ul>
+<h2 id="rhysd"><a href="https://github.com/rhysd"><strong>@rhysd</strong></a></h2></div>
+```
 
-*   `sanitize` (`object` or `boolean`, default: `undefined`)
-    — Sanitation schema to use. Passed to
-    [hast-util-sanitize](https://github.com/wooorm/hast-util-sanitize).
-    The default schema, if none or `true` is passed, adheres to GitHub’s
-    sanitation rules. If `false` is passed, it does not sanitize input.
+## Programmatic
 
-*   `prefix` (`string`, default: `h-`)
-    — React key.
+### `origin.use(rehype2react[, options])`
+
+Normally, the `use`d on processor compiles to a string, but this
+compiler generates a `ReactElement` instead.  It’s accessible
+through `file.contents`.
+
+###### `options`
 
 *   `createElement` (`Function`, default: `require('react').createElement`)
-    — Function to use to create elements.
-
-*   `rehypeReactComponents` (`object`, default: `undefined`)
-    — Provides a way to override default elements (`<a>`, `<p>`, etc)
-    by defining an object comprised of `element: Component` key-value
-    pairs. For example, to output `<MyLink>` components instead of
-    `<a>`, and `<MyParagraph>` instead of `<p>`:
-
-    ```js
-    rehypeReactComponents: {
-      a: MyLink,
-      p: MyParagraph
-    }
-    ```
-
-These can passed to `remark.use()` as a second argument.
-
-## Integrations
-
-**rehype-react** works great with:
-
-*   [**remark-toc**](https://github.com/wooorm/remark-toc), which generates
-    tables of contents;
-
-*   [**remark-github**](https://github.com/wooorm/remark-github), which
-    generates references to GitHub issues, PRs, users, and more;
-
-*   ...and [more](https://github.com/wooorm/remark/blob/master/doc/plugins.md#list-of-plugins).
-
-All [**remark** nodes](https://github.com/wooorm/mdast)
-can be compiled to HTML.  In addition, **remark-react** looks for an
-`attributes` object on each node it compiles and adds the found properties
-as HTML attributes on the compiled tag.
+    — Function to use to create `ReactElement`s;
+*   `components` (`Object`, default: `{}`)
+    — Register components;
+*   `prefix` (`string`, default: `'h-'`)
+    — Prefix for key to use on generated `ReactElement`s.
 
 ## License
 
-[MIT](LICENSE) © [Titus Wormer](http://wooorm.com), modified by [Tom MacWright](http://www.macwright.org/) and [Mapbox](https://www.mapbox.com/) and [rhysd](https://rhysd.github.io)
+[MIT](LICENSE) © [Titus Wormer][titus], modified by
+[Tom MacWright][tom] and [Mapbox][] and [rhysd][].
+
+[titus]: http://wooorm.com
+
+[tom]: http://www.macwright.org/
+
+[mapbox]: https://www.mapbox.com/
+
+[rhysd]: https://rhysd.github.io
+
+[travis-badge]: https://travis-ci.org/rhysd/rehype-react.svg?branch=master
+
+[travis-status]: https://travis-ci.org/rhysd/rehype-react
+
+[npm]: https://docs.npmjs.com/cli/install
+
+[hast]: https://github.com/wooorm/hast
+
+[react]: https://github.com/facebook/react
+
+[rehype]: https://github.com/wooorm/rehype
