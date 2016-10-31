@@ -7,14 +7,6 @@ var toH = require('hast-to-hyperscript');
 /* Expose `rehype-react`. */
 module.exports = rehype2react;
 
-/* Get React’s `createElement`. */
-var globalCreateElement;
-
-try {
-  /* eslint-disable import/no-extraneous-dependencies */
-  globalCreateElement = require('react').createElement;
-} catch (err) {}
-
 /**
  * Attach a react compiler.
  *
@@ -29,7 +21,7 @@ try {
  */
 function rehype2react(processor, options) {
   var settings = options || {};
-  var createElement = settings.createElement || globalCreateElement;
+  var createElement = settings.createElement;
   var components = settings.components || {};
 
   Compiler.prototype.compile = compile;

@@ -80,7 +80,7 @@ through `file.contents`.
 
 ###### `options`
 
-*   `createElement` (`Function`, default: `require('react').createElement`)
+*   `createElement` (`Function`, required)
     — Function to use to create `ReactElement`s;
 *   `components` (`Object`, default: `{}`)
     — Register components;

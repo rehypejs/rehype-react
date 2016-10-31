@@ -9,16 +9,19 @@ var u = require('unist-builder');
 var h = require('hastscript');
 var rehype2react = require('./');
 
-var processor = unified().use(rehype2react, {createElement: React.createElement});
+var opts = {createElement: React.createElement};
+var processor = unified().use(rehype2react, opts);
 
 /* Tests. */
 test('React ' + React.version, function (t) {
-  t.deepEqual(
-    unified()
-      .use(rehype2react)
-      .stringify(h('body')),
-    React.createElement('body', {key: 'h-1'}, undefined),
-    'should work without `createElement`'
+  t.throws(
+    function () {
+      unified()
+        .use(rehype2react)
+        .stringify(h('body'));
+    },
+    /^TypeError: createElement is not a function$/,
+    'should fail without `createElement`'
   );
 
   t.deepEqual(
