@@ -2,10 +2,26 @@
   "name": "rehype-react",
   "description": "Compile Hast tree to React with remark",
   "version": "1.1.0",
-  "author": {
-    "name": "Titus Wormer",
-    "email": "tituswormer@gmail.com"
-  },
+  "keywords": [
+    "compile",
+    "html",
+    "markdown",
+    "remark",
+    "stringify"
+  ],
+  "license": "MIT",
+  "repository": "https://github.com/rhysd/rehype-react",
+  "bugs": "https://github.com/rhysd/rehype-react/issues",
+  "author": [
+    {
+      "name": "Titus Wormer",
+      "email": "tituswormer@gmail.com"
+    },
+    {
+      "name": "rhysd",
+      "email": "lin90162@yahoo.co.jp"
+    }
+  ],
   "contributors": [
     "Tom MacWright <tom@macwright.org>",
     "Titus Wormer <tituswormer@gmail.com>",
@@ -17,50 +33,44 @@
     "rhysd <lin90162@yahoo.co.jp>"
   ],
   "dependencies": {
-    "hast-to-hyperscript": "^2.0.1",
-    "hast-util-sanitize": "^1.0.0"
+    "has": "^1.0.1",
+    "hast-to-hyperscript": "^2.0.1"
   },
   "devDependencies": {
-    "commonmark.json": "^0.26.0",
-    "eslint": "^3.7.1",
-    "istanbul": "^0.4.2",
-    "jscs": "^3.0.0",
-    "jscs-jsdoc": "^2.0.0",
-    "mocha": "^3.1.0",
+    "hastscript": "^3.0.1",
+    "nyc": "^8.3.0",
+    "react": "^15.3.0",
+    "react-dom": "^15.3.0",
     "remark": "^6.0.1",
     "remark-cli": "^2.0.0",
-    "remark-github": "^6.0.1",
-    "remark-lint": "^5.1.0",
-    "remark-rehype": "^1.0.1",
-    "remark-toc": "^3.0.0",
-    "vfile": "^2.0.0"
+    "remark-preset-wooorm": "^1.0.0",
+    "tape": "^4.6.2",
+    "unified": "^5.0.0",
+    "unist-builder": "^1.0.2",
+    "xo": "^0.17.0"
   },
   "files": [
-    "index.js",
-    "LICENSE"
+    "index.js"
   ],
-  "keywords": [
-    "compile",
-    "html",
-    "markdown",
-    "remark",
-    "stringify"
-  ],
-  "license": "MIT",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/rhysd/rehype-react.git"
-  },
-  "bugs": "https://github.com/rhysd/rehype-react/issues",
   "scripts": {
     "build-md": "remark . --output --quiet",
-    "lint": "npm run lint-api && npm run lint-style",
-    "lint-api": "eslint .",
-    "lint-style": "jscs --reporter inline .",
-    "make": "npm run lint && npm run test-coverage",
-    "sub-install": "cd test/react/v0.14 && npm install && cd ../..",
-    "test": "npm run sub-install && npm run test-api",
-    "test-api": "mocha --check-leaks test/index.js",
-    "test-coverage": "istanbul cover _mocha -- --check-leaks test/index.js"
+    "build": "npm run build-md",
+    "lint": "xo",
+    "test-api": "node test",
+    "test-coverage": "nyc --reporter lcov tape test.js",
+    "test": "npm run build && npm run lint && npm run test-coverage"
+  },
+  "nyc": {
+    "check-coverage": true,
+    "lines": 100,
+    "functions": 100,
+    "branches": 100
+  },
+  "xo": {
+    "space": true
+  },
+  "remarkConfig": {
+    "output": true,
+    "presets": "wooorm"
   }
 }

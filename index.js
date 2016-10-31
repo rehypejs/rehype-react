@@ -1,100 +1,58 @@
 'use strict';
 
-/*
- * Dependencies.
- */
-
-var sanitize = require('hast-util-sanitize');
+/* Dependencies. */
+var has = require('has');
 var toH = require('hast-to-hyperscript');
 
-try {
-    var globalCreateElement = require('react').createElement;
-} catch (e) { }
-
-var own = {}.hasOwnProperty;
-
-var TABLE_ELEMENTS = ['table', 'thead', 'tbody', 'tfoot', 'tr'];
+/* Expose `rehype-react`. */
+module.exports = rehype2react;
 
 /**
  * Attach a react compiler.
  *
  * @param {Unified} processor - Instance.
  * @param {Object?} [options]
- * @param {Object?} [options.sanitize]
- *   - Sanitation schema.
- * @param {Object?} [options.rehypeReactComponents]
+ * @param {Object?} [options.components]
  *   - Components.
  * @param {string?} [options.prefix]
  *   - Key prefix.
  * @param {Function?} [options.createElement]
  *   - `h()`.
  */
-function plugin(processor, options) {
-    var settings = options || {};
-    var createElement = settings.createElement || globalCreateElement;
-    var components = settings.rehypeReactComponents || {};
-    var clean = settings.sanitize !== false;
-    var scheme = clean && (typeof settings.sanitize !== 'boolean') ? settings.sanitize : null;
+function rehype2react(processor, options) {
+  var settings = options || {};
+  var createElement = settings.createElement;
+  var components = settings.components || {};
 
-    /**
-     * Wrapper around `createElement` to pass
-     * components in.
-     *
-     * @param {string} name - Element name.
-     * @param {Object} props - Attributes.
-     * @return {ReactElement} - React element.
-     */
-    function h(name, props, children) {
-        var component = own.call(components, name) ? components[name] : name;
+  Compiler.prototype.compile = compile;
 
-        /*
-         * Currently, a warning is triggered by react for
-         * *any* white-space in tables.  So we remove the
-         * pretty lines for now:
-         * https://github.com/facebook/react/pull/7081
-         */
-        if (children && TABLE_ELEMENTS.indexOf(component) !== -1) {
-            children = children.filter(function (child) {
-                return child !== '\n';
-            });
-        }
+  processor.Compiler = Compiler;
 
-        return createElement(component, props, children);
-    }
+  return;
 
-    /**
-     * Extensible constructor.
-     */
-    function Compiler() {}
+  function Compiler() {}
 
-    /**
-     * Compile MDAST to React.
-     *
-     * @param {Node} node - MDAST node.
-     * @return {ReactElement} - React element.
-     */
-    function compile(node) {
-        var hast = {
-            type: 'element',
-            tagName: 'div',
-            properties: {},
-            children: node.children
+  /* Compile HAST to React. */
+  function compile(node) {
+    if (node.type === 'root') {
+      if (node.children.length === 1 && node.children[0].type === 'element') {
+        node = node.children[0];
+      } else {
+        node = {
+          type: 'element',
+          tagName: 'div',
+          properties: {},
+          children: node.children
         };
-
-        if (clean) {
-            hast = sanitize(hast, scheme);
-        }
-
-        return toH(h, hast, settings.prefix);
+      }
     }
 
-    Compiler.prototype.compile = compile;
+    return toH(h, node, settings.prefix);
+  }
 
-    processor.Compiler = Compiler;
+  /* Wrap `createElement` to pass components in. */
+  function h(name, props, children) {
+    var component = has(components, name) ? components[name] : name;
+    return createElement(component, props, children);
+  }
 }
-
-/*
- * Expose `plugin`.
- */
-
-module.exports = plugin;
