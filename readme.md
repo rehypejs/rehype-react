@@ -33,7 +33,7 @@ var rehype2react = require('rehype-react');
 var processor = unified()
   .use(markdown)
   .use(toc)
-  .use(github,{
+  .use(github, {
     repository: 'https://github.com/rhysd/rehype-react'
   })
   .use(remark2rehype)
