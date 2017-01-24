@@ -21,7 +21,7 @@ cool GH features), and to highlight code blocks.
 
 ```js
 var React = require('react');
-var ReactDOM = require('react-dom')
+var ReactDOM = require('react-dom');
 var unified = require('unified');
 var markdown = require('remark-parse');
 var toc = require('remark-toc');
