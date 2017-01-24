@@ -34,12 +34,12 @@ var processor = unified()
   .use(markdown)
   .use(toc)
   .use(github,{
-    repository:"https://github.com/rhysd/rehype-react"
+    repository: 'https://github.com/rhysd/rehype-react'
   })
   .use(remark2rehype)
   .use(highlight)
   .use(rehype2react, {
-    createElement:React.createElement
+    createElement: React.createElement
   });
 
 var App = React.createClass({
