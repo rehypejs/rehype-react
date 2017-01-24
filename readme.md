@@ -20,7 +20,8 @@ to add a Table of Contents and to render GitHub mentions (and other
 cool GH features), and to highlight code blocks.
 
 ```js
-var react = require('react');
+var React = require('react');
+var ReactDOM = require('react-dom');
 var unified = require('unified');
 var markdown = require('remark-parse');
 var toc = require('remark-toc');
@@ -32,10 +33,14 @@ var rehype2react = require('rehype-react');
 var processor = unified()
   .use(markdown)
   .use(toc)
-  .use(github)
+  .use(github, {
+    repository: 'https://github.com/rhysd/rehype-react'
+  })
   .use(remark2rehype)
   .use(highlight)
-  .use(rehype2react);
+  .use(rehype2react, {
+    createElement: React.createElement
+  });
 
 var App = React.createClass({
   getInitialState() {
@@ -56,7 +61,7 @@ var App = React.createClass({
   }
 });
 
-React.render(<App />, document.getElementById('app'));
+ReactDOM.render(<App />, document.getElementById('app'));
 ```
 
 Yields (in `id="preview"`, on first render):
