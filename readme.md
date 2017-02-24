@@ -55,7 +55,7 @@ var App = React.createClass({
         value={this.state.text}
         onChange={this.onChange} />
       <div id='preview'>
-        {processor.process(this.state.text).contents}
+        {processor.processSync(this.state.text).contents}
       </div>
     </div>);
   }

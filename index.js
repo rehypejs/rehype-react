@@ -19,21 +19,17 @@ module.exports = rehype2react;
  * @param {Function?} [options.createElement]
  *   - `h()`.
  */
-function rehype2react(processor, options) {
+function rehype2react(options) {
   var settings = options || {};
   var createElement = settings.createElement;
   var components = settings.components || {};
 
-  Compiler.prototype.compile = compile;
-
-  processor.Compiler = Compiler;
+  this.Compiler = compiler;
 
   return;
 
-  function Compiler() {}
-
   /* Compile HAST to React. */
-  function compile(node) {
+  function compiler(node) {
     if (node.type === 'root') {
       if (node.children.length === 1 && node.children[0].type === 'element') {
         node = node.children[0];
