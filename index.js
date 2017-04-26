@@ -26,8 +26,6 @@ function rehype2react(options) {
 
   this.Compiler = compiler;
 
-  return;
-
   /* Compile HAST to React. */
   function compiler(node) {
     if (node.type === 'root') {
