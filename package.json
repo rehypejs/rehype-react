@@ -37,17 +37,17 @@
     "hast-to-hyperscript": "^4.0.0"
   },
   "devDependencies": {
-    "hastscript": "^3.0.1",
-    "nyc": "^10.0.0",
-    "react": "^15.3.0",
-    "react-dom": "^15.3.0",
-    "remark": "^7.0.0",
-    "remark-cli": "^3.0.0",
-    "remark-preset-wooorm": "^2.0.0",
-    "tape": "^4.6.2",
-    "unified": "^6.0.0",
+    "hastscript": "^3.1.0",
+    "nyc": "^11.3.0",
+    "react": "^16.2.0",
+    "react-dom": "^16.2.0",
+    "remark": "^8.0.0",
+    "remark-cli": "^4.0.0",
+    "remark-preset-wooorm": "^3.0.0",
+    "tape": "^4.8.0",
+    "unified": "^6.1.6",
     "unist-builder": "^1.0.2",
-    "xo": "^0.18.0"
+    "xo": "^0.18.2"
   },
   "files": [
     "index.js"
