@@ -1,7 +1,7 @@
 {
   "name": "rehype-react",
   "description": "Compile Hast tree to React with remark",
-  "version": "3.0.2",
+  "version": "3.0.3",
   "keywords": [
     "compile",
     "html",
@@ -34,7 +34,7 @@
   ],
   "dependencies": {
     "has": "^1.0.1",
-    "hast-to-hyperscript": "^4.0.0"
+    "hast-to-hyperscript": "^5.0.0"
   },
   "devDependencies": {
     "hastscript": "^3.1.0",
