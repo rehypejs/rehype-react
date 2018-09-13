@@ -35,7 +35,7 @@ function rehype2react(options) {
         node = {
           type: 'element',
           tagName: 'div',
-          properties: {},
+          properties: node.properties || {},
           children: node.children
         };
       }
