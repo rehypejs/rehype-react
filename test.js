@@ -115,7 +115,7 @@ test('React ' + React.version, function (t) {
         React.createElement('th', {style: {textAlign: 'right'}, key: 'h-3'}, undefined)
       ])
     ]),
-    'should transform an element with align propperty'
+    'should transform an element with align property'
   );
 
   t.end();
