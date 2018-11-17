@@ -108,5 +108,15 @@ test('React ' + React.version, function (t) {
     'should support components'
   );
 
+  t.deepEqual(
+    processor.stringify(h('table', {}, [h('thead', h('th', {align: 'right'}))])),
+    React.createElement('table', {key: 'h-1'}, [
+      React.createElement('thead', {key: 'h-2'}, [
+        React.createElement('th', {style: {textAlign: 'right'}, key: 'h-3'}, undefined)
+      ])
+    ]),
+    'should transform an element with align propperty'
+  );
+
   t.end();
 });
