@@ -3,6 +3,7 @@
 /* Dependencies. */
 var has = require('has');
 var toH = require('hast-to-hyperscript');
+var tableCellStyle = require('@mapbox/hast-util-table-cell-style');
 
 /* Expose `rehype-react`. */
 module.exports = rehype2react;
@@ -41,7 +42,7 @@ function rehype2react(options) {
       }
     }
 
-    return toH(h, node, settings.prefix);
+    return toH(h, tableCellStyle(node), settings.prefix);
   }
 
   /* Wrap `createElement` to pass components in. */
