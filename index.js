@@ -42,9 +42,7 @@ function rehype2react(options) {
       }
     }
 
-    var hast = tableCellStyle(node);
-
-    return toH(h, hast, settings.prefix);
+    return toH(h, tableCellStyle(node), settings.prefix);
   }
 
   /* Wrap `createElement` to pass components in. */
