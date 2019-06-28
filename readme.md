@@ -89,10 +89,10 @@ Yields (in `id="preview"`, on first render):
 
 [**rehype**][rehype] ([hast][]) plugin to transform to [**React**][react].
 
-Typically, [**unified**][unified] compilers return string.
-This compilers returns a `ReactElement`.
+Typically, [**unified**][unified] compilers return `string`.
+This compiler returns a `ReactElement`.
 When using `.process` or `.processSync`, the value at `file.contents` (or when
-using `.stringify`, the return value), the resulting value is a `ReactElement`.
+using `.stringify`, the return value), is a `ReactElement`.
 When using TypeScript, cast the type on your side.
 
 ##### `options`
