@@ -40,6 +40,7 @@
   "devDependencies": {
     "hastscript": "^3.1.0",
     "nyc": "^11.3.0",
+    "prettier": "^1.18.2",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
     "remark": "^8.0.0",
@@ -48,18 +49,16 @@
     "tape": "^4.8.0",
     "unified": "^6.1.6",
     "unist-builder": "^1.0.2",
-    "xo": "^0.18.2"
+    "xo": "^0.24.0"
   },
   "files": [
     "index.js"
   ],
   "scripts": {
-    "build-md": "remark . -qfo",
-    "build": "npm run build-md",
-    "lint": "xo",
+    "format": "remark . -qfo && prettier --write \"**/*.js\" && xo --fix",
     "test-api": "node test",
     "test-coverage": "nyc --reporter lcov tape test.js",
-    "test": "npm run build && npm run lint && npm run test-coverage"
+    "test": "npm run format && npm run test-coverage"
   },
   "nyc": {
     "check-coverage": true,
@@ -67,8 +66,16 @@
     "functions": 100,
     "branches": 100
   },
+  "prettier": {
+    "tabWidth": 2,
+    "useTabs": false,
+    "singleQuote": true,
+    "bracketSpacing": false,
+    "semi": false,
+    "trailingComma": "none"
+  },
   "xo": {
-    "space": true,
+    "prettier": true,
     "esnext": false
   },
   "remarkConfig": {
