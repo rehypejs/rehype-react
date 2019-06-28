@@ -1,36 +1,35 @@
 {
   "name": "rehype-react",
-  "description": "Compile Hast tree to React with remark",
+  "description": "rehype plugin to transform to React",
   "version": "3.1.0",
-  "keywords": [
-    "compile",
-    "html",
-    "markdown",
-    "remark",
-    "stringify"
-  ],
   "license": "MIT",
-  "repository": "https://github.com/rhysd/rehype-react",
-  "bugs": "https://github.com/rhysd/rehype-react/issues",
-  "author": [
-    {
-      "name": "Titus Wormer",
-      "email": "tituswormer@gmail.com"
-    },
-    {
-      "name": "rhysd",
-      "email": "lin90162@yahoo.co.jp"
-    }
+  "keywords": [
+    "unified",
+    "rehype",
+    "html",
+    "hast",
+    "react"
   ],
+  "repository": "rehypejs/rehype-react",
+  "bugs": "https://github.com/rehypejs/rehype-react/issues",
+  "author": "rhysd <lin90162@yahoo.co.jp>",
   "contributors": [
+    "Titus Wormer <tituswormer@gmail.com> (https://wooorm.com)",
     "Tom MacWright <tom@macwright.org>",
-    "Titus Wormer <tituswormer@gmail.com>",
-    "Ciaran Wood <cyrzinsomnia@gmail.com>",
+    "rhysd <lin90162@yahoo.co.jp>",
     "Juho Vepsalainen <bebraw@gmail.com>",
+    "Ciaran Wood <cyrzinsomnia@gmail.com>",
+    "Takuya Matsuyama <nora@odoruinu.net>",
     "Jason Trill <jason@jasontrill.com>",
-    "Tsuyusato Kitsune <make.just.on@gmail.com>",
     "Jeremy Stucki <jeremy@interactivethings.com>",
-    "rhysd <lin90162@yahoo.co.jp>"
+    "Tsuyusato Kitsune <make.just.on@gmail.com>",
+    "David Clark <dclark@mapbox.com>",
+    "Tucker Whitehouse <Tucker.Whitehouse@LibertyMutual.com>",
+    "kthjm <toxictoxer@gmail.com>",
+    "Artem Sapegin <artem@sapegin.ru>"
+  ],
+  "files": [
+    "index.js"
   ],
   "dependencies": {
     "@mapbox/hast-util-table-cell-style": "^0.1.3",
@@ -50,9 +49,6 @@
     "unist-builder": "^1.0.2",
     "xo": "^0.24.0"
   },
-  "files": [
-    "index.js"
-  ],
   "scripts": {
     "format": "remark . -qfo && prettier --write \"**/*.js\" && xo --fix",
     "test-api": "node test",
