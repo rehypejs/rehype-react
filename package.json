@@ -33,7 +33,7 @@
   ],
   "dependencies": {
     "@mapbox/hast-util-table-cell-style": "^0.1.3",
-    "hast-to-hyperscript": "^5.0.0"
+    "hast-to-hyperscript": "^7.0.0"
   },
   "devDependencies": {
     "hastscript": "^5.0.0",
