@@ -16,15 +16,15 @@ test('React ' + React.version, function(t) {
     function() {
       unified()
         .use(rehype2react)
-        .stringify(h('body'))
+        .stringify(h('p'))
     },
     /^TypeError: createElement is not a function$/,
     'should fail without `createElement`'
   )
 
   t.deepEqual(
-    processor.stringify(h('body')),
-    React.createElement('body', {key: 'h-1'}, undefined),
+    processor.stringify(h('p')),
+    React.createElement('p', {key: 'h-1'}, undefined),
     'should transform an element'
   )
 
@@ -63,22 +63,37 @@ test('React ' + React.version, function(t) {
   )
 
   t.deepEqual(
-    processor.stringify(u('root', [h('body')])),
-    React.createElement('body', {key: 'h-1'}, undefined),
-    'should skip `root`s'
+    processor.stringify(u('root', [h('p')])),
+    React.createElement('div', {}, [
+      React.createElement('p', {key: 'h-1'}, undefined)
+    ]),
+    'should transform `root` to a `div` by default'
+  )
+
+  t.deepEqual(
+    unified()
+      .use(rehype2react, {
+        createElement: React.createElement,
+        Fragment: React.Fragment
+      })
+      .stringify(u('root', [h('p')])),
+    React.createElement(React.Fragment, {}, [
+      React.createElement('p', {key: 'h-1'}, undefined)
+    ]),
+    'should transform `root` to a `Fragment` if given'
   )
 
   t.deepEqual(
     processor.stringify(u('root', [u('doctype', {name: 'html'})])),
-    React.createElement('div', {key: 'h-1'}, undefined),
+    React.createElement('div', {}, undefined),
     'should skip `doctype`s'
   )
 
   t.deepEqual(
     processor.stringify(
-      h('body', h('h1.main-heading', {dataFoo: 'bar'}, h('span', 'baz')))
+      h('section', h('h1.main-heading', {dataFoo: 'bar'}, h('span', 'baz')))
     ),
-    React.createElement('body', {key: 'h-1'}, [
+    React.createElement('section', {key: 'h-1'}, [
       React.createElement(
         'h1',
         {

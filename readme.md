@@ -100,6 +100,12 @@ When using TypeScript, cast the type on your side.
 ###### `options.createElement`
 
 How to create elements or components (`Function`).
+You should typically pass `React.createElement`.
+
+###### `options.Fragment`
+
+Create fragments instead of an outer `<div>` if available (`symbol`).
+You should typically pass `React.Fragment`.
 
 ###### `options.components`
 

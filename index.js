@@ -11,25 +11,29 @@ var has = {}.hasOwnProperty
 function rehypeReact(options) {
   var settings = options || {}
   var createElement = settings.createElement
+  var Fragment = settings.Fragment
   var components = settings.components || {}
 
   this.Compiler = compiler
 
   function compiler(node) {
+    var res = toH(h, tableCellStyle(node), settings.prefix)
+
     if (node.type === 'root') {
-      if (node.children.length === 1 && node.children[0].type === 'element') {
-        node = node.children[0]
+      // Invert <https://github.com/syntax-tree/hast-to-hyperscript/blob/d227372/index.js#L46-L56>.
+      if (
+        res.type === 'div' &&
+        (node.children.length !== 1 || node.children[0].type !== 'element')
+      ) {
+        res = res.children
       } else {
-        node = {
-          type: 'element',
-          tagName: 'div',
-          properties: node.properties || {},
-          children: node.children
-        }
+        res = [res]
       }
+
+      return createElement(Fragment || 'div', {}, res)
     }
 
-    return toH(h, tableCellStyle(node), settings.prefix)
+    return res
   }
 
   // Wrap `createElement` to pass components in.
