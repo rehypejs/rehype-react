@@ -1,67 +1,75 @@
 # rehype-react
 
-[![Build Status][travis-badge]][travis-status]
+[![Build][build-badge]][build]
+[![Coverage][coverage-badge]][coverage]
+[![Downloads][downloads-badge]][downloads]
+[![Size][size-badge]][size]
+[![Sponsors][sponsors-badge]][collective]
+[![Backers][backers-badge]][collective]
+[![Chat][chat-badge]][chat]
 
-Compiles [HAST][] to [React][] with [**rehype**][rehype].
+[**rehype**][rehype] plugin to transform to [**React**][react].
 
 ## Install
 
 [npm][]:
 
-```bash
+```sh
 npm install rehype-react
 ```
 
 ## Use
 
-The following example shows how to create a markdown input textarea,
-and corresponding rendered HTML output.  The markdown is processed
-to add a Table of Contents and to render GitHub mentions (and other
-cool GH features), and to highlight code blocks.
+The following example shows how to create a Markdown input textarea, and
+corresponding rendered HTML output.
+The Markdown is processed to add a Table of Contents, highlight code blocks, and
+to render GitHub mentions (and other cool GH features).
 
 ```js
-var React = require('react');
-var ReactDOM = require('react-dom');
-var unified = require('unified');
-var markdown = require('remark-parse');
-var toc = require('remark-toc');
-var github = require('remark-github');
-var remark2rehype = require('remark-rehype');
-var highlight = require('rehype-highlight');
-var rehype2react = require('rehype-react');
+import React from 'react'
+import ReactDOM from 'react-dom'
+import unified from 'unified'
+import markdown from 'remark-parse'
+import slug from 'remark-slug'
+import toc from 'remark-toc'
+import github from 'remark-github'
+import remark2rehype from 'remark-rehype'
+import highlight from 'rehype-highlight'
+import rehype2react from 'rehype-react'
 
 var processor = unified()
   .use(markdown)
+  .use(slug)
   .use(toc)
-  .use(github, {
-    repository: 'https://github.com/rhysd/rehype-react'
-  })
+  .use(github, {repository: 'rehypejs/rehype-react'})
   .use(remark2rehype)
   .use(highlight)
-  .use(rehype2react, {
-    createElement: React.createElement
-  });
+  .use(rehype2react, {createElement: React.createElement})
 
-var App = React.createClass({
-  getInitialState() {
-    return {text: '# Hello\n\n## Table of Contents\n\n## @rhysd'};
-  },
-  onChange(ev) {
-    this.setState({text: ev.target.value});
-  },
-  render() {
-    return (<div>
-      <textarea
-        value={this.state.text}
-        onChange={this.onChange} />
-      <div id='preview'>
-        {processor.processSync(this.state.text).contents}
-      </div>
-    </div>);
+class App extends React.Component {
+  constructor() {
+    super()
+    this.state = {text: '# Hello\n\n## Table of Contents\n\n## @rhysd'}
+    this.onChange = this.onChange.bind(this)
   }
-});
 
-ReactDOM.render(<App />, document.getElementById('app'));
+  onChange(ev) {
+    this.setState({text: ev.target.value})
+  }
+
+  render() {
+    return (
+      <div>
+        <textarea value={this.state.text} onChange={this.onChange} />
+        <div id="preview">
+          {processor.processSync(this.state.text).contents}
+        </div>
+      </div>
+    )
+  }
+}
+
+ReactDOM.render(<App />, document.querySelector('#root'))
 ```
 
 Yields (in `id="preview"`, on first render):
@@ -75,44 +83,113 @@ Yields (in `id="preview"`, on first render):
 <h2 id="rhysd"><a href="https://github.com/rhysd"><strong>@rhysd</strong></a></h2></div>
 ```
 
-## Programmatic
+## API
 
 ### `origin.use(rehype2react[, options])`
 
-Normally, the `use`d on processor compiles to a string, but this
-compiler generates a `ReactElement` instead.  It’s accessible
-through `file.contents`.
+[**rehype**][rehype] ([hast][]) plugin to transform to [**React**][react].
 
-###### `options`
+Typically, [**unified**][unified] compilers return string.
+This compilers returns a `ReactElement`.
+When using `.process` or `.processSync`, the value at `file.contents` (or when
+using `.stringify`, the return value), the resulting value is a `ReactElement`.
+When using TypeScript, cast the type on your side.
 
-*   `createElement` (`Function`, required)
-    — Function to use to create `ReactElement`s;
-*   `components` (`Object`, default: `{}`)
-    — Register components;
-*   `prefix` (`string`, default: `'h-'`)
-    — Prefix for key to use on generated `ReactElement`s.
+##### `options`
+
+###### `options.createElement`
+
+How to create elements or components (`Function`).
+
+###### `options.components`
+
+Override default elements (such as `<a>`, `<p>`, etcetera) by passing an object
+mapping tag names to components (`Object.<Component>`, default: `{}`).
+
+###### `options.prefix`
+
+React key prefix (`string`, default: `'h-'`).
+
+## Related
+
+*   [`remark-rehype`](https://github.com/remarkjs/remark-rehype)
+    — Transform Markdown ([**mdast**][mdast]) to HTML ([**hast**][hast])
+*   [`rehype-retext`](https://github.com/rehypejs/rehype-retext)
+    — Transform HTML ([**hast**][hast]) to natural language ([**nlcst**][nlcst])
+*   [`rehype-remark`](https://github.com/rehypejs/rehype-remark)
+    — Transform HTML ([**hast**][hast]) to Markdown ([**mdast**][mdast]
+
+## Contribute
+
+See [`contributing.md`][contributing] in [`rehypejs/.github`][health] for ways
+to get started.
+See [`support.md`][support] for ways to get help.
+
+This project has a [Code of Conduct][coc].
+By interacting with this repository, organisation, or community you agree to
+abide by its terms.
 
 ## License
 
-[MIT](license) © [Titus Wormer][titus], modified by
-[Tom MacWright][tom] and [Mapbox][] and [rhysd][].
+[MIT][license] © [Titus Wormer][titus], modified by [Tom MacWright][tom],
+[Mapbox][], and [rhysd][].
 
-[titus]: http://wooorm.com
+<!-- Definitions -->
 
-[tom]: http://www.macwright.org/
+[build-badge]: https://img.shields.io/travis/rehypejs/rehype-react/master.svg
 
-[mapbox]: https://www.mapbox.com/
+[build]: https://travis-ci.org/rehypejs/rehype-react
 
-[rhysd]: https://rhysd.github.io
+[coverage-badge]: https://img.shields.io/codecov/c/github/rehypejs/rehype-react.svg
 
-[travis-badge]: https://travis-ci.org/rhysd/rehype-react.svg?branch=master
+[coverage]: https://codecov.io/github/rehypejs/rehype-react
 
-[travis-status]: https://travis-ci.org/rhysd/rehype-react
+[downloads-badge]: https://img.shields.io/npm/dm/rehype-react.svg
+
+[downloads]: https://www.npmjs.com/package/rehype-react
+
+[size-badge]: https://img.shields.io/bundlephobia/minzip/rehype-react.svg
+
+[size]: https://bundlephobia.com/result?p=rehype-react
+
+[sponsors-badge]: https://opencollective.com/unified/sponsors/badge.svg
+
+[backers-badge]: https://opencollective.com/unified/backers/badge.svg
+
+[collective]: https://opencollective.com/unified
+
+[chat-badge]: https://img.shields.io/badge/join%20the%20community-on%20spectrum-7b16ff.svg
+
+[chat]: https://spectrum.chat/unified/rehype
 
 [npm]: https://docs.npmjs.com/cli/install
 
-[hast]: https://github.com/wooorm/hast
+[health]: https://github.com/rehypejs/.github
+
+[contributing]: https://github.com/rehypejs/.github/blob/master/contributing.md
+
+[support]: https://github.com/rehypejs/.github/blob/master/support.md
+
+[coc]: https://github.com/rehypejs/.github/blob/master/code-of-conduct.md
+
+[license]: license
+
+[titus]: https://wooorm.com
+
+[tom]: https://macwright.org
+
+[mapbox]: https://www.mapbox.com
+
+[rhysd]: https://rhysd.github.io
+
+[unified]: https://github.com/unifiedjs/unified
+
+[rehype]: https://github.com/rehypejs/rehype
+
+[mdast]: https://github.com/syntax-tree/mdast
+
+[hast]: https://github.com/syntax-tree/hast
+
+[nlcst]: https://github.com/syntax-tree/nlcst
 
 [react]: https://github.com/facebook/react
-
-[rehype]: https://github.com/wooorm/rehype
