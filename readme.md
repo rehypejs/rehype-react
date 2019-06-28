@@ -112,6 +112,21 @@ You should typically pass `React.Fragment`.
 Override default elements (such as `<a>`, `<p>`, etcetera) by passing an object
 mapping tag names to components (`Object.<Component>`, default: `{}`).
 
+For example, to use `<MyLink>` components instead of `<a>`, and `<MyParagraph>`
+instead of `<p>`, so something like this:
+
+```js
+// …
+  .use(rehype2react, {
+    createElement: React.createElement,
+    components: {
+      a: MyLink,
+      p: MyParagraph
+    }
+  })
+  // …
+```
+
 ###### `options.prefix`
 
 React key prefix (`string`, default: `'h-'`).
