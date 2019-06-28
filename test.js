@@ -1,6 +1,5 @@
 'use strict'
 
-/* Dependencies. */
 var test = require('tape')
 var React = require('react')
 var server = require('react-dom/server')
@@ -12,7 +11,6 @@ var rehype2react = require('.')
 var opts = {createElement: React.createElement}
 var processor = unified().use(rehype2react, opts)
 
-/* Tests. */
 test('React ' + React.version, function(t) {
   t.throws(
     function() {
