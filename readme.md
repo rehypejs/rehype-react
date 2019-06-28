@@ -94,7 +94,7 @@ through `file.contents`.
 
 ## License
 
-[MIT](LICENSE) © [Titus Wormer][titus], modified by
+[MIT](license) © [Titus Wormer][titus], modified by
 [Tom MacWright][tom] and [Mapbox][] and [rhysd][].
 
 [titus]: http://wooorm.com
