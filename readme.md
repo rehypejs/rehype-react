@@ -138,7 +138,7 @@ React key prefix (`string`, default: `'h-'`).
 *   [`rehype-retext`](https://github.com/rehypejs/rehype-retext)
     — Transform HTML ([**hast**][hast]) to natural language ([**nlcst**][nlcst])
 *   [`rehype-remark`](https://github.com/rehypejs/rehype-remark)
-    — Transform HTML ([**hast**][hast]) to Markdown ([**mdast**][mdast]
+    — Transform HTML ([**hast**][hast]) to Markdown ([**mdast**][mdast])
 
 ## Contribute
 
