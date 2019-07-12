@@ -25,7 +25,7 @@ function rehypeReact(options) {
         res.type === 'div' &&
         (node.children.length !== 1 || node.children[0].type !== 'element')
       ) {
-        res = res.children
+        res = res.props.children
       } else {
         res = [res]
       }

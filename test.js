@@ -76,9 +76,10 @@ test('React ' + React.version, function(t) {
         createElement: React.createElement,
         Fragment: React.Fragment
       })
-      .stringify(u('root', [h('p')])),
+      .stringify(u('root', [h('h1'), h('p')])),
     React.createElement(React.Fragment, {}, [
-      React.createElement('p', {key: 'h-1'}, undefined)
+      React.createElement('h1', {key: 'h-2'}, undefined),
+      React.createElement('p', {key: 'h-3'}, undefined)
     ]),
     'should transform `root` to a `Fragment` if given'
   )
