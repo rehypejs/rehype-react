@@ -131,6 +131,12 @@ instead of `<p>`, so something like this:
 
 React key prefix (`string`, default: `'h-'`).
 
+## Security
+
+Use of `rehype-react` can open you up to a [cross-site scripting (XSS)][xss]
+attack if the tree is unsafe.
+Use [`rehype-sanitize`][sanitize] to make the tree safe.
+
 ## Related
 
 *   [`remark-rehype`](https://github.com/remarkjs/remark-rehype)
@@ -139,6 +145,8 @@ React key prefix (`string`, default: `'h-'`).
     — Transform HTML ([**hast**][hast]) to natural language ([**nlcst**][nlcst])
 *   [`rehype-remark`](https://github.com/rehypejs/rehype-remark)
     — Transform HTML ([**hast**][hast]) to Markdown ([**mdast**][mdast])
+*   [`rehype-sanitize`][sanitize]
+    — Sanitize HTML
 
 ## Contribute
 
@@ -214,3 +222,7 @@ abide by its terms.
 [nlcst]: https://github.com/syntax-tree/nlcst
 
 [react]: https://github.com/facebook/react
+
+[xss]: https://en.wikipedia.org/wiki/Cross-site_scripting
+
+[sanitize]: https://github.com/rehypejs/rehype-sanitize
