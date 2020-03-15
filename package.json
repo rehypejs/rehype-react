@@ -12,6 +12,10 @@
   ],
   "repository": "rehypejs/rehype-react",
   "bugs": "https://github.com/rehypejs/rehype-react/issues",
+  "funding": {
+    "type": "opencollective",
+    "url": "https://opencollective.com/unified"
+  },
   "author": "rhysd <lin90162@yahoo.co.jp>",
   "contributors": [
     "Titus Wormer <tituswormer@gmail.com> (https://wooorm.com)",
