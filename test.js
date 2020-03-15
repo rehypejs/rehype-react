@@ -8,8 +8,8 @@ var u = require('unist-builder')
 var h = require('hastscript')
 var rehype2react = require('.')
 
-var opts = {createElement: React.createElement}
-var processor = unified().use(rehype2react, opts)
+var options = {createElement: React.createElement}
+var processor = unified().use(rehype2react, options)
 
 test('React ' + React.version, function(t) {
   t.throws(
