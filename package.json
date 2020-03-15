@@ -6,6 +6,8 @@
   "keywords": [
     "unified",
     "rehype",
+    "rehype-plugin",
+    "plugin",
     "html",
     "hast",
     "react"
