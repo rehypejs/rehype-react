@@ -44,7 +44,7 @@
   "devDependencies": {
     "hastscript": "^5.0.0",
     "nyc": "^15.0.0",
-    "prettier": "^1.0.0",
+    "prettier": "^2.0.0",
     "react": "^16.0.0",
     "react-dom": "^16.0.0",
     "remark": "^11.0.0",

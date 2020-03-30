@@ -11,12 +11,10 @@ var rehype2react = require('.')
 var options = {createElement: React.createElement}
 var processor = unified().use(rehype2react, options)
 
-test('React ' + React.version, function(t) {
+test('React ' + React.version, function (t) {
   t.throws(
-    function() {
-      unified()
-        .use(rehype2react)
-        .stringify(h('p'))
+    function () {
+      unified().use(rehype2react).stringify(h('p'))
     },
     /^TypeError: createElement is not a function$/,
     'should fail without `createElement`'
@@ -114,7 +112,7 @@ test('React ' + React.version, function(t) {
         .use(rehype2react, {
           createElement: React.createElement,
           components: {
-            h1: function(props) {
+            h1: function (props) {
               return React.createElement('h2', props)
             }
           }
