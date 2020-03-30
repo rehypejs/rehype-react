@@ -51,7 +51,7 @@
     "remark-cli": "^7.0.0",
     "remark-preset-wooorm": "^6.0.0",
     "tape": "^4.0.0",
-    "unified": "^8.0.0",
+    "unified": "^9.0.0",
     "unist-builder": "^2.0.0",
     "xo": "^0.28.0"
   },

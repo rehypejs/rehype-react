@@ -62,7 +62,7 @@ class App extends React.Component {
       <div>
         <textarea value={this.state.text} onChange={this.onChange} />
         <div id="preview">
-          {processor.processSync(this.state.text).contents}
+          {processor.processSync(this.state.text).result}
         </div>
       </div>
     )
@@ -91,9 +91,12 @@ Yields (in `id="preview"`, on first render):
 
 Typically, [**unified**][unified] compilers return `string`.
 This compiler returns a `ReactElement`.
-When using `.process` or `.processSync`, the value at `file.contents` (or when
+When using `.process` or `.processSync`, the value at `file.result` (or when
 using `.stringify`, the return value), is a `ReactElement`.
 When using TypeScript, cast the type on your side.
+
+> ℹ️ In [`unified@9.0.0`][unified-9], the result of `.process` changed from
+> ~~`file.contents`~~ to `file.result`.
 
 ##### `options`
 
@@ -226,3 +229,5 @@ abide by its terms.
 [xss]: https://en.wikipedia.org/wiki/Cross-site_scripting
 
 [sanitize]: https://github.com/rehypejs/rehype-sanitize
+
+[unified-9]: https://github.com/unifiedjs/unified/releases/tag/9.0.0
