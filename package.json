@@ -32,17 +32,25 @@
     "David Clark <dclark@mapbox.com>",
     "Tucker Whitehouse <Tucker.Whitehouse@LibertyMutual.com>",
     "kthjm <toxictoxer@gmail.com>",
-    "Artem Sapegin <artem@sapegin.ru>"
+    "Artem Sapegin <artem@sapegin.ru>",
+    "Christian Murphy <christian.murphy.42@gmail.com>"
   ],
   "files": [
-    "index.js"
+    "index.js",
+    "types/index.d.ts"
   ],
+  "types": "types/index.d.ts",
   "dependencies": {
     "@mapbox/hast-util-table-cell-style": "^0.1.3",
     "hast-to-hyperscript": "^8.0.0"
   },
   "devDependencies": {
+    "@types/hyperscript": "0.0.4",
+    "@types/react": "^16.9.35",
+    "@types/virtual-dom": "^2.1.0",
+    "dtslint": "^3.6.3",
     "hastscript": "^5.0.0",
+    "hyperscript": "^2.0.2",
     "nyc": "^15.0.0",
     "prettier": "^2.0.0",
     "react": "^16.0.0",
@@ -53,13 +61,15 @@
     "tape": "^4.0.0",
     "unified": "^9.0.0",
     "unist-builder": "^2.0.0",
+    "vue": "^2.6.11",
     "xo": "^0.28.0"
   },
   "scripts": {
     "format": "remark . -qfo && prettier --write \"**/*.js\" && xo --fix",
     "test-api": "node test",
     "test-coverage": "nyc --reporter lcov tape test.js",
-    "test": "npm run format && npm run test-coverage"
+    "test-types": "dtslint types",
+    "test": "npm run format && npm run test-coverage && npm run test-types"
   },
   "nyc": {
     "check-coverage": true,
