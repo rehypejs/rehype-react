@@ -42,7 +42,7 @@
   "types": "types/index.d.ts",
   "dependencies": {
     "@mapbox/hast-util-table-cell-style": "^0.1.3",
-    "hast-to-hyperscript": "^8.0.0"
+    "hast-to-hyperscript": "^9.0.0"
   },
   "devDependencies": {
     "@types/hyperscript": "0.0.4",
