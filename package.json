@@ -46,7 +46,7 @@
   },
   "devDependencies": {
     "@types/hyperscript": "0.0.4",
-    "@types/react": "^16.9.35",
+    "@types/react": "^16.9.0",
     "@types/virtual-dom": "^2.1.0",
     "dtslint": "^3.6.3",
     "hastscript": "^5.0.0",
@@ -55,14 +55,14 @@
     "prettier": "^2.0.0",
     "react": "^16.0.0",
     "react-dom": "^16.0.0",
-    "remark": "^11.0.0",
-    "remark-cli": "^7.0.0",
-    "remark-preset-wooorm": "^6.0.0",
-    "tape": "^4.0.0",
+    "remark": "^12.0.0",
+    "remark-cli": "^8.0.0",
+    "remark-preset-wooorm": "^7.0.0",
+    "tape": "^5.0.0",
     "unified": "^9.0.0",
     "unist-builder": "^2.0.0",
-    "vue": "^2.6.11",
-    "xo": "^0.28.0"
+    "vue": "^2.6.0",
+    "xo": "^0.32.0"
   },
   "scripts": {
     "format": "remark . -qfo && prettier --write \"**/*.js\" && xo --fix",
