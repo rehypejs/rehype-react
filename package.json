@@ -65,7 +65,7 @@
     "xo": "^0.32.0"
   },
   "scripts": {
-    "format": "remark . -qfo && prettier --write \"**/*.js\" && xo --fix",
+    "format": "remark . -qfo && prettier . --write && xo --fix",
     "test-api": "node test",
     "test-coverage": "nyc --reporter lcov tape test.js",
     "test-types": "dtslint types",
