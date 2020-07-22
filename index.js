@@ -13,6 +13,7 @@ function rehypeReact(options) {
   var createElement = settings.createElement
   var Fragment = settings.Fragment
   var components = settings.components || {}
+  var passNode = settings.passNode
 
   this.Compiler = compiler
 
@@ -38,7 +39,14 @@ function rehypeReact(options) {
 
   // Wrap `createElement` to pass components in.
   function h(name, props, children) {
-    var component = has.call(components, name) ? components[name] : name
+    var component = name
+    if (has.call(components, name)) {
+      component = components[name]
+      if (passNode) {
+        props.node = this
+      }
+    }
+
     return createElement(component, props, children)
   }
 }

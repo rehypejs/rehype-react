@@ -141,5 +141,26 @@ test('React ' + React.version, function (t) {
     'should transform an element with align property'
   )
 
+  const headingNode = h('h1')
+  const Heading1 = function (props) {
+    return React.createElement('h1', props)
+  }
+  t.deepEqual(
+    unified()
+      .use(rehype2react, {
+        createElement: React.createElement,
+        passNode: true,
+        components: {
+          h1: Heading1
+        }
+      })
+      .stringify(u('root', [headingNode, h('p')])),
+    React.createElement('div', {}, [
+      React.createElement(Heading1, {key: 'h-2', node: headingNode}, undefined),
+      React.createElement('p', {key: 'h-3'}, undefined)
+    ]),
+    'should expose node from node prop'
+  )
+
   t.end()
 })
