@@ -7,9 +7,9 @@ import {Node} from 'unist'
 declare namespace rehypeReact {
   type FragmentLike<T> = (props: any) => T | null
 
-  type ComponentProps = {
-    node?: Node
+  interface ComponentProps {
     [prop: string]: unknown
+    node?: Node
   }
 
   type ComponentLike<T> = (props: ComponentProps) => T | null
