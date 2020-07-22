@@ -43,6 +43,19 @@ unified().use(rehypeToReact, {
   }
 })
 
+unified().use(rehypeToReact, {
+  createElement: React.createElement,
+  passNode: true
+})
+
+unified().use(rehypeToReact, {
+  createElement: React.createElement,
+  passNode: true,
+  components: {
+    a: (props: rehypeToReact.ComponentProps) => <a>{props.node}</a>
+  }
+})
+
 // Mismatch between framework of createElement and components or Fragment should fail
 unified().use(rehypeToReact, {
   createElement: virtualDomCreateElement,
