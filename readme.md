@@ -136,7 +136,7 @@ React key prefix (`string`, default: `'h-'`).
 
 ###### `options.passNode`
 
-Expose HAST Node objects to `node` prop of react components
+Pass the original hast node as `props.node` to custom React components
 (`boolean`, default: `false`).
 
 ## Security
