@@ -145,6 +145,7 @@ test('React ' + React.version, function (t) {
   const Heading1 = function (props) {
     return React.createElement('h1', props)
   }
+
   t.deepEqual(
     unified()
       .use(rehype2react, {
