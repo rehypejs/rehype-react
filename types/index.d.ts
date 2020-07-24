@@ -2,11 +2,17 @@
 
 import {Transformer} from 'unified'
 import {Prefix, CreateElementLike} from 'hast-to-hyperscript'
+import {Node} from 'unist'
 
 declare namespace rehypeReact {
   type FragmentLike<T> = (props: any) => T | null
 
-  type ComponentLike<T> = (props: {[prop: string]: unknown}) => T | null
+  interface ComponentProps {
+    [prop: string]: unknown
+    node?: Node
+  }
+
+  type ComponentLike<T> = (props: ComponentProps) => T | null
 
   interface Options<H extends CreateElementLike> {
     /**
@@ -34,6 +40,13 @@ declare namespace rehypeReact {
      * @defaultValue 'h-'
      */
     prefix?: Prefix
+
+    /**
+     * Expose HAST Node objects to `node` prop of react components
+     *
+     * @defaultValue false
+     */
+    passNode?: boolean
   }
 }
 

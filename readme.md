@@ -134,6 +134,11 @@ instead of `<p>`, so something like this:
 
 React key prefix (`string`, default: `'h-'`).
 
+###### `options.passNode`
+
+Pass the original hast node as `props.node` to custom React components
+(`boolean`, default: `false`).
+
 ## Security
 
 Use of `rehype-react` can open you up to a [cross-site scripting (XSS)][xss]
