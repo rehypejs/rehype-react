@@ -30,9 +30,7 @@ declare namespace rehypeReact {
     /**
      * Override default elements (such as `<a>`, `<p>`, etcetera) by passing an object mapping tag names to components
      */
-    components?: {
-      [element: string]: ComponentLike<ReturnType<H>>
-    }
+    components?: Record<string, ComponentLike<ReturnType<H>>>
 
     /**
      * React key prefix
