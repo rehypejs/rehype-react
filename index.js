@@ -5,15 +5,12 @@ var tableCellStyle = require('@mapbox/hast-util-table-cell-style')
 
 module.exports = rehypeReact
 
-var has = {}.hasOwnProperty
+var own = {}.hasOwnProperty
 
 // Add a React compiler.
 function rehypeReact(options) {
   var settings = options || {}
   var createElement = settings.createElement
-  var Fragment = settings.Fragment
-  var components = settings.components || {}
-  var passNode = settings.passNode
 
   this.Compiler = compiler
 
@@ -28,7 +25,7 @@ function rehypeReact(options) {
           ? result.props.children
           : [result]
 
-      return createElement(Fragment || 'div', {}, result)
+      return createElement(settings.Fragment || 'div', {}, result)
     }
 
     return result
@@ -37,9 +34,11 @@ function rehypeReact(options) {
   // Wrap `createElement` to pass components in.
   function h(name, props, children) {
     var component = name
-    if (has.call(components, name)) {
-      component = components[name]
-      if (passNode) {
+
+    if (settings.components && own.call(settings.components, name)) {
+      component = settings.components[name]
+
+      if (settings.passNode) {
         props.node = this
       }
     }
