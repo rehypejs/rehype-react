@@ -5,7 +5,10 @@ import {h as virtualDomCreateElement} from 'virtual-dom'
 import * as hyperscriptCreateElement from 'hyperscript'
 import Vue from 'vue'
 
-const TypedFunctionalComponent: React.FC = () => <>example</>
+const TypedFunctionalComponent: React.FunctionComponent = () => <>example</>
+const ConflictingTypedFunctionalComponent: React.FunctionComponent<{
+  notARealProp: string
+}> = () => null
 
 // Create element must be provided
 unified().use(rehypeToReact) // $ExpectError
@@ -54,12 +57,28 @@ unified().use(rehypeToReact, {
 
 unified().use(rehypeToReact, {
   createElement: React.createElement,
+  components: {
+    div: ConflictingTypedFunctionalComponent // $ExpectError
+  }
+})
+
+unified().use(rehypeToReact, {
+  createElement: React.createElement,
   passNode: true
 })
 
 unified().use(rehypeToReact, {
   createElement: React.createElement,
   passNode: true,
+  components: {
+    a: (props: rehypeToReact.ComponentPropsWithNode) => <a>{props.node}</a>
+  }
+})
+
+// $ExpectError
+unified().use(rehypeToReact, {
+  createElement: React.createElement,
+  passNode: false,
   components: {
     a: (props: rehypeToReact.ComponentPropsWithNode) => <a>{props.node}</a>
   }

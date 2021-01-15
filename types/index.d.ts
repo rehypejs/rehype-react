@@ -1,4 +1,4 @@
-// Minimum TypeScript Version: 3.4
+// Minimum TypeScript Version: 3.8
 
 import {Transformer} from 'unified'
 import {Prefix, CreateElementLike} from 'hast-to-hyperscript'
@@ -15,7 +15,10 @@ declare namespace rehypeReact {
 
   type ComponentProps = ComponentPropsWithoutNode | ComponentPropsWithNode
 
-  type ComponentLike<T, P = ComponentPropsWithNode> = (props: P) => T | null
+  type ComponentLike<
+    T,
+    P extends ComponentPropsWithoutNode = ComponentPropsWithoutNode
+  > = (props: P) => T | null
 
   interface SharedOptions<H extends CreateElementLike> {
     /**
@@ -43,7 +46,10 @@ declare namespace rehypeReact {
         /**
          * Override default elements (such as `<a>`, `<p>`, etcetera) by passing an object mapping tag names to components
          */
-        components?: Record<string, ComponentLike<ReturnType<H>>>
+        components?: Record<
+          string,
+          ComponentLike<ReturnType<H>, ComponentPropsWithNode>
+        >
         /**
          * Expose HAST Node objects to `node` prop of react components
          *
@@ -52,10 +58,7 @@ declare namespace rehypeReact {
         passNode: true
       }
     | {
-        components?: Record<
-          string,
-          ComponentLike<ReturnType<H>, ComponentPropsWithoutNode>
-        >
+        components?: Record<string, ComponentLike<ReturnType<H>>>
         passNode?: false
       }
 
