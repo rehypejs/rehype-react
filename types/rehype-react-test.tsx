@@ -5,6 +5,8 @@ import {h as virtualDomCreateElement} from 'virtual-dom'
 import * as hyperscriptCreateElement from 'hyperscript'
 import Vue from 'vue'
 
+const TypedFunctionalComponent: React.FC = () => <>example</>
+
 // Create element must be provided
 unified().use(rehypeToReact) // $ExpectError
 unified().use(rehypeToReact, {}) // $ExpectError
@@ -45,6 +47,13 @@ unified().use(rehypeToReact, {
 
 unified().use(rehypeToReact, {
   createElement: React.createElement,
+  components: {
+    div: TypedFunctionalComponent
+  }
+})
+
+unified().use(rehypeToReact, {
+  createElement: React.createElement,
   passNode: true
 })
 
@@ -52,7 +61,7 @@ unified().use(rehypeToReact, {
   createElement: React.createElement,
   passNode: true,
   components: {
-    a: (props: rehypeToReact.ComponentProps) => <a>{props.node}</a>
+    a: (props: rehypeToReact.ComponentPropsWithNode) => <a>{props.node}</a>
   }
 })
 
