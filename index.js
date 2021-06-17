@@ -44,12 +44,12 @@ function rehypeReact(options) {
     // See: <https://github.com/remarkjs/remark-react/issues/64>.
     if (children && tableElements.indexOf(name) !== -1) {
         children = children.filter(function (child) {
-            const not_newline = child !== '\n' && child !== '\r';
-            let not_empty = true;
+            const notNewline = child !== '\n' && child !== '\r';
+            let notEmpty = true;
             if (typeof child === 'string') {
-                not_empty = child.trim().length > 0;
+                notEmpty = child.trim().length > 0;
             }
-            return not_newline && not_empty;
+            return notNewline && notEmpty;
         })
     }
     
