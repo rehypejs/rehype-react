@@ -6,6 +6,7 @@ var tableCellStyle = require('@mapbox/hast-util-table-cell-style')
 module.exports = rehypeReact
 
 var own = {}.hasOwnProperty
+var tableElements = ['table', 'thead', 'tbody', 'tfoot', 'tr', 'th', 'td']
 
 // Add a React compiler.
 function rehypeReact(options) {
@@ -35,6 +36,23 @@ function rehypeReact(options) {
   function h(name, props, children) {
     var component = name
 
+    // Currently, a warning is triggered by react for *any* white space in
+    // tables.
+    // So we remove the pretty lines for now.
+    // See: <https://github.com/facebook/react/pull/7081>.
+    // See: <https://github.com/facebook/react/pull/7515>.
+    // See: <https://github.com/remarkjs/remark-react/issues/64>.
+    if (children && tableElements.indexOf(name) !== -1) {
+        children = children.filter(function (child) {
+            const not_newline = child !== '\n' && child !== '\r';
+            let not_empty = true;
+            if (typeof child === 'string') {
+                not_empty = child.trim().length > 0;
+            }
+            return not_newline && not_empty;
+        })
+    }
+    
     if (settings.components && own.call(settings.components, name)) {
       component = settings.components[name]
 
