@@ -6,7 +6,15 @@ var tableCellStyle = require('@mapbox/hast-util-table-cell-style')
 module.exports = rehypeReact
 
 var own = {}.hasOwnProperty
-var tableElements = ['table', 'thead', 'tbody', 'tfoot', 'tr', 'th', 'td']
+var tableElements = new Set([
+  'table',
+  'thead',
+  'tbody',
+  'tfoot',
+  'tr',
+  'th',
+  'td'
+])
 
 // Add a React compiler.
 function rehypeReact(options) {
@@ -42,12 +50,12 @@ function rehypeReact(options) {
     // See: <https://github.com/facebook/react/pull/7081>.
     // See: <https://github.com/facebook/react/pull/7515>.
     // See: <https://github.com/remarkjs/remark-react/issues/64>.
-    if (children && tableElements.indexOf(name) !== -1) {
-        children = children.filter(function (child) {
-            return child !== '\n';
-        })
+    if (children && tableElements.has(name)) {
+      children = children.filter(function (child) {
+        return child !== '\n'
+      })
     }
-    
+
     if (settings.components && own.call(settings.components, name)) {
       component = settings.components[name]
 
