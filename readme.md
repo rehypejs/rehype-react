@@ -23,7 +23,7 @@ npm install rehype-react
 
 ## Use
 
-The following example shows how to create a Markdown input textarea, and
+The following example shows how to create a markdown input textarea, and
 corresponding rendered HTML output.
 The Markdown is processed to add a Table of Contents, highlight code blocks, and
 to render GitHub mentions (and other cool GH features).
@@ -89,24 +89,20 @@ Yields (in `id="preview"`, on first render):
 This package exports no identifiers.
 The default export is `rehypeReact`.
 
-### `unified().use(rehypeReact[, options])`
+### `unified().use(rehypeReact, options)`
 
 [**rehype**][rehype] ([hast][]) plugin to transform to [**React**][react].
 
 Typically, [**unified**][unified] compilers return `string`.
-This compiler returns a `ReactElement`.
+This compiler returns a `ReactElement` (or similar).
 When using `.process` or `.processSync`, the value at `file.result` (or when
-using `.stringify`, the return value), is a `ReactElement`.
-When using TypeScript, cast the type on your side.
-
-> ℹ️ In [`unified@9.0.0`][unified-9], the result of `.process` changed from
-> ~~`file.contents`~~ to `file.result`.
+using `.stringify`, the return value), is such a custom node.
 
 ##### `options`
 
 ###### `options.createElement`
 
-How to create elements or components (`Function`).
+How to create elements or components (`Function`, required).
 You should typically pass `React.createElement`.
 
 ###### `options.Fragment`
@@ -238,5 +234,3 @@ abide by its terms.
 [xss]: https://en.wikipedia.org/wiki/Cross-site_scripting
 
 [sanitize]: https://github.com/rehypejs/rehype-sanitize
-
-[unified-9]: https://github.com/unifiedjs/unified/releases/tag/9.0.0

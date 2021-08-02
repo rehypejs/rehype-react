@@ -12,48 +12,70 @@ const processor = unified().use(rehypeReact, options)
 test('React ' + React.version, (t) => {
   t.throws(
     () => {
-      unified().use(rehypeReact).stringify(h('p'))
+      // @ts-expect-error: options missing.
+      unified()
+        .use(rehypeReact)
+        .stringify(u('root', [h('p')]))
     },
     /^TypeError: createElement is not a function$/,
     'should fail without `createElement`'
   )
 
   t.deepEqual(
+    processor.stringify(u('root', [h('p')])),
+    React.createElement('div', {}, [
+      React.createElement('p', {key: 'h-1'}, undefined)
+    ]),
+    'should transform a root'
+  )
+
+  t.deepEqual(
+    // @ts-expect-error: plugin is typed as only supporting roots.
     processor.stringify(h('p')),
     React.createElement('p', {key: 'h-1'}, undefined),
     'should transform an element'
   )
 
   t.deepEqual(
-    processor.stringify(h('h1.main-heading', {dataFoo: 'bar'})),
-    React.createElement(
-      'h1',
-      {className: 'main-heading', 'data-foo': 'bar', key: 'h-1'},
-      undefined
-    ),
+    processor.stringify(u('root', [h('h1.main-heading', {dataFoo: 'bar'})])),
+    React.createElement('div', {}, [
+      React.createElement(
+        'h1',
+        {className: 'main-heading', 'data-foo': 'bar', key: 'h-1'},
+        undefined
+      )
+    ]),
     'should transform an element with properties'
   )
 
   t.deepEqual(
-    processor.stringify(h('p', 'baz')),
-    React.createElement('p', {key: 'h-1'}, ['baz']),
+    processor.stringify(u('root', [h('p', 'baz')])),
+    React.createElement('div', {}, [
+      React.createElement('p', {key: 'h-1'}, ['baz'])
+    ]),
     'should transform an element with a text node'
   )
 
   t.deepEqual(
-    processor.stringify(h('p', h('strong', 'qux'))),
-    React.createElement('p', {key: 'h-1'}, [
-      React.createElement('strong', {key: 'h-2'}, ['qux'])
+    processor.stringify(u('root', [h('p', h('strong', 'qux'))])),
+    React.createElement('div', {}, [
+      React.createElement('p', {key: 'h-1'}, [
+        React.createElement('strong', {key: 'h-2'}, ['qux'])
+      ])
     ]),
     'should transform an element with a child element'
   )
 
   t.deepEqual(
-    processor.stringify(h('p', [h('em', 'qux'), ' foo ', h('i', 'bar')])),
-    React.createElement('p', {key: 'h-1'}, [
-      React.createElement('em', {key: 'h-2'}, ['qux']),
-      ' foo ',
-      React.createElement('i', {key: 'h-3'}, ['bar'])
+    processor.stringify(
+      u('root', [h('p', [h('em', 'qux'), ' foo ', h('i', 'bar')])])
+    ),
+    React.createElement('div', {}, [
+      React.createElement('p', {key: 'h-1'}, [
+        React.createElement('em', {key: 'h-2'}, ['qux']),
+        ' foo ',
+        React.createElement('i', {key: 'h-3'}, ['bar'])
+      ])
     ]),
     'should transform an element with mixed contents'
   )
@@ -88,18 +110,22 @@ test('React ' + React.version, (t) => {
 
   t.deepEqual(
     processor.stringify(
-      h('section', h('h1.main-heading', {dataFoo: 'bar'}, h('span', 'baz')))
+      u('root', [
+        h('section', h('h1.main-heading', {dataFoo: 'bar'}, h('span', 'baz')))
+      ])
     ),
-    React.createElement('section', {key: 'h-1'}, [
-      React.createElement(
-        'h1',
-        {
-          key: 'h-2',
-          className: 'main-heading',
-          'data-foo': 'bar'
-        },
-        [React.createElement('span', {key: 'h-3'}, ['baz'])]
-      )
+    React.createElement('div', {}, [
+      React.createElement('section', {key: 'h-1'}, [
+        React.createElement(
+          'h1',
+          {
+            key: 'h-2',
+            className: 'main-heading',
+            'data-foo': 'bar'
+          },
+          [React.createElement('span', {key: 'h-3'}, ['baz'])]
+        )
+      ])
     ]),
     'should transform trees'
   )
@@ -110,36 +136,40 @@ test('React ' + React.version, (t) => {
         .use(rehypeReact, {
           createElement: React.createElement,
           components: {
-            h1(props) {
-              return React.createElement('h2', props)
-            }
+            /** @param {object} props */
+            h1: (props) => React.createElement('h2', props)
           }
         })
-        .stringify(h('h1'))
+        .stringify(u('root', [h('h1')]))
     ),
     server.renderToStaticMarkup(
-      React.createElement('h2', {key: 'h-1'}, undefined)
+      React.createElement('div', {}, [
+        React.createElement('h2', {key: 'h-1'}, undefined)
+      ])
     ),
     'should support components'
   )
 
   t.deepEqual(
     processor.stringify(
-      h('table', {}, [h('thead', h('th', {align: 'right'}))])
+      u('root', [h('table', {}, [h('thead', h('th', {align: 'right'}))])])
     ),
-    React.createElement('table', {key: 'h-1'}, [
-      React.createElement('thead', {key: 'h-2'}, [
-        React.createElement(
-          'th',
-          {style: {textAlign: 'right'}, key: 'h-3'},
-          undefined
-        )
+    React.createElement('div', {}, [
+      React.createElement('table', {key: 'h-1'}, [
+        React.createElement('thead', {key: 'h-2'}, [
+          React.createElement(
+            'th',
+            {style: {textAlign: 'right'}, key: 'h-3'},
+            undefined
+          )
+        ])
       ])
     ]),
     'should transform an element with align property'
   )
 
   const headingNode = h('h1')
+  /** @param {object} props */
   const Heading1 = function (props) {
     return React.createElement('h1', props)
   }
@@ -149,9 +179,7 @@ test('React ' + React.version, (t) => {
       .use(rehypeReact, {
         createElement: React.createElement,
         passNode: true,
-        components: {
-          h1: Heading1
-        }
+        components: {h1: Heading1}
       })
       .stringify(u('root', [headingNode, h('p')])),
     React.createElement('div', {}, [
