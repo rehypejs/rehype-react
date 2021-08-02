@@ -12,6 +12,9 @@
 
 ## Install
 
+This package is [ESM only](https://gist.github.com/sindresorhus/a39789f98801d908bbc7ff3ecc99d99c):
+Node 12+ is needed to use it and it must be `import`ed instead of `require`d.
+
 [npm][]:
 
 ```sh
@@ -28,23 +31,23 @@ to render GitHub mentions (and other cool GH features).
 ```js
 import React from 'react'
 import ReactDOM from 'react-dom'
-import unified from 'unified'
-import markdown from 'remark-parse'
-import slug from 'remark-slug'
-import toc from 'remark-toc'
-import github from 'remark-github'
-import remark2rehype from 'remark-rehype'
-import highlight from 'rehype-highlight'
-import rehype2react from 'rehype-react'
+import {unified} from 'unified'
+import remarkParse from 'remark-parse'
+import remarkSlug from 'remark-slug'
+import remarkToc from 'remark-toc'
+import remarkGithub from 'remark-github'
+import remarkRehype from 'remark-rehype'
+import rehypeHighlight from 'rehype-highlight'
+import rehypeReact from 'rehype-react'
 
-var processor = unified()
-  .use(markdown)
-  .use(slug)
-  .use(toc)
-  .use(github, {repository: 'rehypejs/rehype-react'})
-  .use(remark2rehype)
-  .use(highlight)
-  .use(rehype2react, {createElement: React.createElement})
+const processor = unified()
+  .use(remarkParse)
+  .use(remarkSlug)
+  .use(remarkToc)
+  .use(remarkGithub, {repository: 'rehypejs/rehype-react'})
+  .use(remarkRehype)
+  .use(rehypeHighlight)
+  .use(rehypeReact, {createElement: React.createElement})
 
 class App extends React.Component {
   constructor() {
@@ -61,9 +64,7 @@ class App extends React.Component {
     return (
       <div>
         <textarea value={this.state.text} onChange={this.onChange} />
-        <div id="preview">
-          {processor.processSync(this.state.text).result}
-        </div>
+        <div id="preview">{processor.processSync(this.state.text).result}</div>
       </div>
     )
   }
@@ -85,7 +86,10 @@ Yields (in `id="preview"`, on first render):
 
 ## API
 
-### `origin.use(rehype2react[, options])`
+This package exports no identifiers.
+The default export is `rehypeReact`.
+
+### `unified().use(rehypeReact[, options])`
 
 [**rehype**][rehype] ([hast][]) plugin to transform to [**React**][react].
 
