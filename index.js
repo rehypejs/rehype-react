@@ -1,4 +1,4 @@
-import toH from 'hast-to-hyperscript'
+import {toH} from 'hast-to-hyperscript'
 import tableCellStyle from '@mapbox/hast-util-table-cell-style'
 
 var own = {}.hasOwnProperty
