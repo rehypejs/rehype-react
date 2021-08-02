@@ -48,10 +48,10 @@
   "devDependencies": {
     "@types/hyperscript": "0.0.4",
     "@types/react": "^17.0.0",
-    "@types/virtual-dom": "^2.1.0",
+    "@types/virtual-dom": "^2.0.0",
     "c8": "^7.0.0",
     "dtslint": "^4.0.0",
-    "hastscript": "^6.0.0",
+    "hastscript": "^7.0.0",
     "hyperscript": "^2.0.0",
     "prettier": "^2.0.0",
     "react": "^17.0.0",
@@ -60,9 +60,9 @@
     "remark-cli": "^9.0.0",
     "remark-preset-wooorm": "^8.0.0",
     "tape": "^5.0.0",
-    "unified": "^9.0.0",
-    "unist-builder": "^2.0.0",
-    "vue": "^2.6.0",
+    "unified": "^10.0.0",
+    "unist-builder": "^3.0.0",
+    "vue": "^2.0.0",
     "xo": "^0.38.0"
   },
   "scripts": {

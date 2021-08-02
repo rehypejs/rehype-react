@@ -1,18 +1,18 @@
 import test from 'tape'
 import React from 'react'
 import server from 'react-dom/server.js'
-import unified from 'unified'
-import u from 'unist-builder'
-import h from 'hastscript'
-import rehype2react from './index.js'
+import {unified} from 'unified'
+import {u} from 'unist-builder'
+import {h} from 'hastscript'
+import rehypeReact from './index.js'
 
 var options = {createElement: React.createElement}
-var processor = unified().use(rehype2react, options)
+var processor = unified().use(rehypeReact, options)
 
 test('React ' + React.version, function (t) {
   t.throws(
     function () {
-      unified().use(rehype2react).stringify(h('p'))
+      unified().use(rehypeReact).stringify(h('p'))
     },
     /^TypeError: createElement is not a function$/,
     'should fail without `createElement`'
@@ -68,7 +68,7 @@ test('React ' + React.version, function (t) {
 
   t.deepEqual(
     unified()
-      .use(rehype2react, {
+      .use(rehypeReact, {
         createElement: React.createElement,
         Fragment: React.Fragment
       })
@@ -107,7 +107,7 @@ test('React ' + React.version, function (t) {
   t.deepEqual(
     server.renderToStaticMarkup(
       unified()
-        .use(rehype2react, {
+        .use(rehypeReact, {
           createElement: React.createElement,
           components: {
             h1: function (props) {
@@ -146,7 +146,7 @@ test('React ' + React.version, function (t) {
 
   t.deepEqual(
     unified()
-      .use(rehype2react, {
+      .use(rehypeReact, {
         createElement: React.createElement,
         passNode: true,
         components: {
