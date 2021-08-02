@@ -63,7 +63,7 @@
     "unified": "^10.0.0",
     "unist-builder": "^3.0.0",
     "vue": "^2.0.0",
-    "xo": "^0.38.0"
+    "xo": "^0.39.0"
   },
   "scripts": {
     "format": "remark . -qfo && prettier . -w --loglevel warn && xo --fix",
@@ -82,11 +82,9 @@
   },
   "xo": {
     "prettier": true,
-    "esnext": false,
-    "rules": {
-      "no-var": "off",
-      "prefer-arrow-callback": "off"
-    }
+    "ignore": [
+      "types/"
+    ]
   },
   "remarkConfig": {
     "plugins": [

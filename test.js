@@ -6,12 +6,12 @@ import {u} from 'unist-builder'
 import {h} from 'hastscript'
 import rehypeReact from './index.js'
 
-var options = {createElement: React.createElement}
-var processor = unified().use(rehypeReact, options)
+const options = {createElement: React.createElement}
+const processor = unified().use(rehypeReact, options)
 
-test('React ' + React.version, function (t) {
+test('React ' + React.version, (t) => {
   t.throws(
-    function () {
+    () => {
       unified().use(rehypeReact).stringify(h('p'))
     },
     /^TypeError: createElement is not a function$/,
@@ -110,7 +110,7 @@ test('React ' + React.version, function (t) {
         .use(rehypeReact, {
           createElement: React.createElement,
           components: {
-            h1: function (props) {
+            h1(props) {
               return React.createElement('h2', props)
             }
           }

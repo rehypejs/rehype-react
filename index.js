@@ -1,8 +1,8 @@
 import {toH} from 'hast-to-hyperscript'
 import tableCellStyle from '@mapbox/hast-util-table-cell-style'
 
-var own = {}.hasOwnProperty
-var tableElements = new Set([
+const own = {}.hasOwnProperty
+const tableElements = new Set([
   'table',
   'thead',
   'tbody',
@@ -13,14 +13,13 @@ var tableElements = new Set([
 ])
 
 // Add a React compiler.
-export default function rehypeReact(options) {
-  var settings = options || {}
-  var createElement = settings.createElement
+export default function rehypeReact(options = {}) {
+  const createElement = options.createElement
 
   this.Compiler = compiler
 
   function compiler(node) {
-    var result = toH(h, tableCellStyle(node), settings.prefix)
+    let result = toH(h, tableCellStyle(node), options.prefix)
 
     if (node.type === 'root') {
       // Invert <https://github.com/syntax-tree/hast-to-hyperscript/blob/d227372/index.js#L46-L56>.
@@ -30,7 +29,7 @@ export default function rehypeReact(options) {
           ? result.props.children
           : [result]
 
-      return createElement(settings.Fragment || 'div', {}, result)
+      return createElement(options.Fragment || 'div', {}, result)
     }
 
     return result
@@ -38,7 +37,7 @@ export default function rehypeReact(options) {
 
   // Wrap `createElement` to pass components in.
   function h(name, props, children) {
-    var component = name
+    let component = name
 
     // Currently, a warning is triggered by react for *any* white space in
     // tables.
@@ -47,15 +46,15 @@ export default function rehypeReact(options) {
     // See: <https://github.com/facebook/react/pull/7515>.
     // See: <https://github.com/remarkjs/remark-react/issues/64>.
     if (children && tableElements.has(name)) {
-      children = children.filter(function (child) {
+      children = children.filter((child) => {
         return child !== '\n'
       })
     }
 
-    if (settings.components && own.call(settings.components, name)) {
-      component = settings.components[name]
+    if (options.components && own.call(options.components, name)) {
+      component = options.components[name]
 
-      if (settings.passNode) {
+      if (options.passNode) {
         props.node = this
       }
     }
