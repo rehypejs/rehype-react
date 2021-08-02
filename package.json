@@ -35,11 +35,12 @@
     "Artem Sapegin <artem@sapegin.ru>",
     "Christian Murphy <christian.murphy.42@gmail.com>"
   ],
+  "sideEffects": false,
+  "type": "module",
+  "main": "index.js",
   "files": [
-    "index.js",
-    "types/index.d.ts"
+    "index.js"
   ],
-  "types": "types/index.d.ts",
   "dependencies": {
     "@mapbox/hast-util-table-cell-style": "^0.2.0",
     "hast-to-hyperscript": "^9.0.0"
@@ -81,7 +82,11 @@
   },
   "xo": {
     "prettier": true,
-    "esnext": false
+    "esnext": false,
+    "rules": {
+      "no-var": "off",
+      "prefer-arrow-callback": "off"
+    }
   },
   "remarkConfig": {
     "plugins": [

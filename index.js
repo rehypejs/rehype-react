@@ -1,9 +1,5 @@
-'use strict'
-
-var toH = require('hast-to-hyperscript')
-var tableCellStyle = require('@mapbox/hast-util-table-cell-style')
-
-module.exports = rehypeReact
+import toH from 'hast-to-hyperscript'
+import tableCellStyle from '@mapbox/hast-util-table-cell-style'
 
 var own = {}.hasOwnProperty
 var tableElements = new Set([
@@ -17,7 +13,7 @@ var tableElements = new Set([
 ])
 
 // Add a React compiler.
-function rehypeReact(options) {
+export default function rehypeReact(options) {
   var settings = options || {}
   var createElement = settings.createElement
 

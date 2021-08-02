@@ -1,12 +1,10 @@
-'use strict'
-
-var test = require('tape')
-var React = require('react')
-var server = require('react-dom/server')
-var unified = require('unified')
-var u = require('unist-builder')
-var h = require('hastscript')
-var rehype2react = require('.')
+import test from 'tape'
+import React from 'react'
+import server from 'react-dom/server.js'
+import unified from 'unified'
+import u from 'unist-builder'
+import h from 'hastscript'
+import rehype2react from './index.js'
 
 var options = {createElement: React.createElement}
 var processor = unified().use(rehype2react, options)
