@@ -1,7 +1,7 @@
 import type {ComponentType} from 'react'
 import type {Element} from 'hast'
 
-export interface WithNode {
+interface WithNode {
   node: Element
 }
 
