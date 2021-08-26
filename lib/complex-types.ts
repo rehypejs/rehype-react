@@ -17,7 +17,7 @@ export interface ComponentsWithNodeOptions {
   components?: Partial<
     {
       [TagName in keyof JSX.IntrinsicElements]:
-        | string
+        | keyof JSX.IntrinsicElements
         | ComponentType<WithNode & JSX.IntrinsicElements[TagName]>
     }
   >
@@ -36,7 +36,7 @@ export interface ComponentsWithoutNodeOptions {
   components?: Partial<
     {
       [TagName in keyof JSX.IntrinsicElements]:
-        | string
+        | keyof JSX.IntrinsicElements
         | ComponentType<JSX.IntrinsicElements[TagName]>
     }
   >
