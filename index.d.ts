@@ -10,6 +10,6 @@ import type {Options} from './lib/index.js'
  *   Configuration.
  */
 // Note: defining all react nodes as result value seems to trip TS up.
-const rehypeReact: Plugin<[Options], Root, ReactElement<unknown>>
+declare const rehypeReact: Plugin<[Options], Root, ReactElement<unknown>>
 export default rehypeReact
 export type {Options}
