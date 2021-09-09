@@ -168,6 +168,22 @@ test('React ' + React.version, (t) => {
     'should transform an element with align property'
   )
 
+  t.deepEqual(
+    processor.stringify(
+      u('root', [
+        h('table', {}, ['\n  ', h('tbody', {}, ['\n  ', h('tr', {})])])
+      ])
+    ),
+    React.createElement('div', {}, [
+      React.createElement('table', {key: 'h-1'}, [
+        React.createElement('tbody', {key: 'h-2'}, [
+          React.createElement('tr', {key: 'h-3'}, undefined)
+        ])
+      ])
+    ]),
+    'should transform a table with whitespace'
+  )
+
   const headingNode = h('h1')
   /** @param {object} props */
   const Heading1 = function (props) {
