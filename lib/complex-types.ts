@@ -14,13 +14,11 @@ export interface ComponentsWithNodeOptions {
    * Override default elements (such as `<a>`, `<p>`, etcetera) by passing an
    * object mapping tag names to components.
    */
-  components?: Partial<
-    {
-      [TagName in keyof JSX.IntrinsicElements]:
-        | keyof JSX.IntrinsicElements
-        | ComponentType<WithNode & JSX.IntrinsicElements[TagName]>
-    }
-  >
+  components?: Partial<{
+    [TagName in keyof JSX.IntrinsicElements]:
+      | keyof JSX.IntrinsicElements
+      | ComponentType<WithNode & JSX.IntrinsicElements[TagName]>
+  }>
 }
 
 export interface ComponentsWithoutNodeOptions {
@@ -33,11 +31,9 @@ export interface ComponentsWithoutNodeOptions {
    * Override default elements (such as `<a>`, `<p>`, etcetera) by passing an
    * object mapping tag names to components.
    */
-  components?: Partial<
-    {
-      [TagName in keyof JSX.IntrinsicElements]:
-        | keyof JSX.IntrinsicElements
-        | ComponentType<JSX.IntrinsicElements[TagName]>
-    }
-  >
+  components?: Partial<{
+    [TagName in keyof JSX.IntrinsicElements]:
+      | keyof JSX.IntrinsicElements
+      | ComponentType<JSX.IntrinsicElements[TagName]>
+  }>
 }
