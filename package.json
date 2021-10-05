@@ -1,7 +1,7 @@
 {
   "name": "rehype-react",
   "description": "rehype plugin to transform to React",
-  "version": "7.0.2",
+  "version": "7.0.3",
   "license": "MIT",
   "keywords": [
     "unified",
