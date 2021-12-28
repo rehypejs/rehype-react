@@ -68,7 +68,7 @@
     "type-coverage": "^2.0.0",
     "typescript": "^4.0.0",
     "unist-builder": "^3.0.0",
-    "xo": "^0.45.0"
+    "xo": "^0.47.0"
   },
   "scripts": {
     "build": "rimraf \"lib/*.d.ts\" \"test.d.ts\" && tsc && type-coverage",

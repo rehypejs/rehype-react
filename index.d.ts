@@ -12,4 +12,5 @@ import type {Options} from './lib/index.js'
 // Note: defining all react nodes as result value seems to trip TS up.
 declare const rehypeReact: Plugin<[Options], Root, ReactElement<unknown>>
 export default rehypeReact
-export type {Options}
+
+export {Options} from './lib/index.js'

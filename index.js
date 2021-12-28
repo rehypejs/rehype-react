@@ -1,3 +1,1 @@
-import rehypeReact from './lib/index.js'
-
-export default rehypeReact
+export {default} from './lib/index.js'
