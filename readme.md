@@ -113,7 +113,7 @@ You should typically pass `React.Fragment`.
 ###### `options.components`
 
 Override default elements (such as `<a>`, `<p>`, etcetera) by passing an object
-mapping tag names to components (`Object.<Component>`, default: `{}`).
+mapping tag names to components (`Record<string, Component>`, default: `{}`).
 
 For example, to use `<MyLink>` components instead of `<a>`, and `<MyParagraph>`
 instead of `<p>`, so something like this:
