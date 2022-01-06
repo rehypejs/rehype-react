@@ -48,7 +48,8 @@ If you’re not familiar with unified, then [`react-markdown`][react-markdown]
 might be a better fit.
 You can also use [`react-remark`][react-remark] instead, which is somewhere
 between `rehype-react` and `react-markdown`, as it does more that the former and
-is more modern than the latter, and also a good alternative.
+is more modern (such as supporting hooks) than the latter, and also a good
+alternative.
 If you want to use JavaScript and JSX *inside* markdown files, use [MDX][].
 
 ## Install
