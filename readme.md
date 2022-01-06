@@ -8,80 +8,112 @@
 [![Backers][backers-badge]][collective]
 [![Chat][chat-badge]][chat]
 
-[**rehype**][rehype] plugin to transform to [**React**][react].
+**[rehype][]** plugin to compile HTML to React nodes.
+
+## Contents
+
+*   [What is this?](#what-is-this)
+*   [When should I use this?](#when-should-i-use-this)
+*   [Install](#install)
+*   [Use](#use)
+*   [API](#api)
+    *   [`unified().use(rehypeReact, options)`](#unifieduserehypereact-options)
+*   [Types](#types)
+*   [Compatibility](#compatibility)
+*   [Security](#security)
+*   [Related](#related)
+*   [Contribute](#contribute)
+*   [License](#license)
+
+## What is this?
+
+This package is a [unified][] ([rehype][]) plugin that compiles HTML (hast) to
+React nodes (the virtual DOM that React uses).
+
+**unified** is a project that transforms content with abstract syntax trees
+(ASTs).
+**rehype** adds support for HTML to unified.
+**hast** is the HTML AST that rehype uses.
+This is a rehype plugin that adds a compiler to compile hast to React nodes.
+
+## When should I use this?
+
+This plugin adds a compiler for rehype, which means that it turns the final
+HTML (hast) syntax tree into something else (in this case, a React node).
+It’s useful when you’re already using unified (whether remark or rehype) or are
+open to learning about ASTs (they’re powerful!) and want to render content in
+your React app.
+
+If you’re not familiar with unified, then [`react-markdown`][react-markdown]
+might be a better fit.
+You can also use [`react-remark`][react-remark] instead, which is somewhere
+between `rehype-react` and `react-markdown`, as it does more that the former and
+is more modern (such as supporting hooks) than the latter, and also a good
+alternative.
+If you want to use JavaScript and JSX *inside* markdown files, use [MDX][].
 
 ## Install
 
-This package is [ESM only](https://gist.github.com/sindresorhus/a39789f98801d908bbc7ff3ecc99d99c):
-Node 12+ is needed to use it and it must be `import`ed instead of `require`d.
-
-[npm][]:
+This package is [ESM only](https://gist.github.com/sindresorhus/a39789f98801d908bbc7ff3ecc99d99c).
+In Node.js (version 12.20+, 14.14+, or 16.0+), install with [npm][]:
 
 ```sh
 npm install rehype-react
 ```
 
-## Use
-
-The following example shows how to create a markdown input textarea, and
-corresponding rendered HTML output.
-The Markdown is processed to add a Table of Contents, highlight code blocks, and
-to render GitHub mentions (and other cool GH features).
+In Deno with [Skypack][]:
 
 ```js
-import React from 'react'
-import ReactDOM from 'react-dom'
-import {unified} from 'unified'
-import remarkParse from 'remark-parse'
-import remarkSlug from 'remark-slug'
-import remarkToc from 'remark-toc'
-import remarkGithub from 'remark-github'
-import remarkRehype from 'remark-rehype'
-import rehypeHighlight from 'rehype-highlight'
-import rehypeReact from 'rehype-react'
-
-const processor = unified()
-  .use(remarkParse)
-  .use(remarkSlug)
-  .use(remarkToc)
-  .use(remarkGithub, {repository: 'rehypejs/rehype-react'})
-  .use(remarkRehype)
-  .use(rehypeHighlight)
-  .use(rehypeReact, {createElement: React.createElement})
-
-class App extends React.Component {
-  constructor() {
-    super()
-    this.state = {text: '# Hello\n\n## Table of Contents\n\n## @rhysd'}
-    this.onChange = this.onChange.bind(this)
-  }
-
-  onChange(ev) {
-    this.setState({text: ev.target.value})
-  }
-
-  render() {
-    return (
-      <div>
-        <textarea value={this.state.text} onChange={this.onChange} />
-        <div id="preview">{processor.processSync(this.state.text).result}</div>
-      </div>
-    )
-  }
-}
-
-ReactDOM.render(<App />, document.querySelector('#root'))
+import rehypeReact from 'https://cdn.skypack.dev/rehype-react@7?dts'
 ```
 
-Yields (in `id="preview"`, on first render):
+In browsers with [Skypack][]:
 
 ```html
-<div><h1 id="hello">Hello</h1>
-<h2 id="table-of-contents">Table of Contents</h2>
-<ul>
-<li><a href="#rhysd">@rhysd</a></li>
-</ul>
-<h2 id="rhysd"><a href="https://github.com/rhysd"><strong>@rhysd</strong></a></h2></div>
+<script type="module">
+  import rehypeReact from 'https://cdn.skypack.dev/rehype-react@7?min'
+</script>
+```
+
+## Use
+
+Say our React app module `example.js` looks as follows:
+
+```js
+import {createElement, Fragment, useEffect, useState} from 'react'
+import {unified} from 'unified'
+import rehypeParse from 'rehype-parse'
+import rehypeReact from 'rehype-react'
+
+const text = `<h2>Hello, world!</h2>
+<p>Welcome to my page 👀</p>`
+
+function useProcessor(text) {
+  const [Content, setContent] = useState(Fragment)
+
+  useEffect(() => {
+    unified()
+      .use(rehypeParse, {fragment: true})
+      .use(rehypeReact, {createElement, Fragment})
+      .process(text)
+      .then((file) => {
+        setContent(file.result)
+      })
+  }, [text])
+
+  return Content
+}
+
+export default function App() {
+  return useProcessor(text)
+}
+```
+
+Assuming that runs in Next.js, Create React App (CRA), or similar, we’d get:
+
+```html
+<h2>Hello, world!</h2>
+<p>Welcome to my page 👀</p>
 ```
 
 ## API
@@ -91,14 +123,17 @@ The default export is `rehypeReact`.
 
 ### `unified().use(rehypeReact, options)`
 
-[**rehype**][rehype] ([hast][]) plugin to transform to [**React**][react].
+Compile HTML to React nodes.
 
-Typically, [**unified**][unified] compilers return `string`.
-This compiler returns a `ReactElement` (or similar).
-When using `.process` or `.processSync`, the value at `file.result` (or when
-using `.stringify`, the return value), is such a custom node.
+> 👉 **Note**: this compiler returns a React node where compilers typically
+> return `string`.
+> When using `.stringify`, the result is such a React node.
+> When using `.process` (or `.processSync`), the result is available at
+> `file.result`.
 
 ##### `options`
+
+Configuration (optional).
 
 ###### `options.createElement`
 
@@ -112,7 +147,7 @@ You should typically pass `React.Fragment`.
 
 ###### `options.components`
 
-Override default elements (such as `<a>`, `<p>`, etcetera) by passing an object
+Override default elements (such as `<a>`, `<p>`, etc.) by passing an object
 mapping tag names to components (`Record<string, Component>`, default: `{}`).
 
 For example, to use `<MyLink>` components instead of `<a>`, and `<MyParagraph>`
@@ -120,7 +155,7 @@ instead of `<p>`, so something like this:
 
 ```js
   // …
-  .use(rehype2react, {
+  .use(rehypeReact, {
     createElement: React.createElement,
     components: {
       a: MyLink,
@@ -139,22 +174,38 @@ React key prefix (`string`, default: `'h-'`).
 Pass the original hast node as `props.node` to custom React components
 (`boolean`, default: `false`).
 
+## Types
+
+This package is fully typed with [TypeScript][].
+It exports an `Options` type, which specifies the interface of the accepted
+options.
+
+## Compatibility
+
+Projects maintained by the unified collective are compatible with all maintained
+versions of Node.js.
+As of now, that is Node.js 12.20+, 14.14+, and 16.0+.
+Our projects sometimes work with older versions, but this is not guaranteed.
+
+This plugin works with `rehype-parse` version 3+, `rehype` version 4+, and
+`unified` version 9+, and React 16+.
+
 ## Security
 
 Use of `rehype-react` can open you up to a [cross-site scripting (XSS)][xss]
 attack if the tree is unsafe.
-Use [`rehype-sanitize`][sanitize] to make the tree safe.
+Use [`rehype-sanitize`][rehype-sanitize] to make the tree safe.
 
 ## Related
 
 *   [`remark-rehype`](https://github.com/remarkjs/remark-rehype)
-    — Transform Markdown ([**mdast**][mdast]) to HTML ([**hast**][hast])
-*   [`rehype-retext`](https://github.com/rehypejs/rehype-retext)
-    — Transform HTML ([**hast**][hast]) to natural language ([**nlcst**][nlcst])
+    — turn markdown into HTML to support rehype
 *   [`rehype-remark`](https://github.com/rehypejs/rehype-remark)
-    — Transform HTML ([**hast**][hast]) to Markdown ([**mdast**][mdast])
-*   [`rehype-sanitize`][sanitize]
-    — Sanitize HTML
+    — turn HTML into markdown to support remark
+*   [`rehype-retext`](https://github.com/rehypejs/rehype-retext)
+    — rehype plugin to support retext
+*   [`rehype-sanitize`][rehype-sanitize]
+    — sanitize HTML
 
 ## Contribute
 
@@ -201,6 +252,8 @@ abide by its terms.
 
 [npm]: https://docs.npmjs.com/cli/install
 
+[skypack]: https://www.skypack.dev
+
 [health]: https://github.com/rehypejs/.github
 
 [contributing]: https://github.com/rehypejs/.github/blob/HEAD/contributing.md
@@ -219,18 +272,18 @@ abide by its terms.
 
 [rhysd]: https://rhysd.github.io
 
+[typescript]: https://www.typescriptlang.org
+
 [unified]: https://github.com/unifiedjs/unified
 
 [rehype]: https://github.com/rehypejs/rehype
 
-[mdast]: https://github.com/syntax-tree/mdast
-
-[hast]: https://github.com/syntax-tree/hast
-
-[nlcst]: https://github.com/syntax-tree/nlcst
-
-[react]: https://github.com/facebook/react
-
 [xss]: https://en.wikipedia.org/wiki/Cross-site_scripting
 
-[sanitize]: https://github.com/rehypejs/rehype-sanitize
+[rehype-sanitize]: https://github.com/rehypejs/rehype-sanitize
+
+[react-markdown]: https://github.com/remarkjs/react-markdown
+
+[react-remark]: https://github.com/remarkjs/react-remark
+
+[mdx]: https://github.com/mdx-js/mdx/
