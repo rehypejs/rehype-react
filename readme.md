@@ -61,17 +61,17 @@ In Node.js (version 12.20+, 14.14+, or 16.0+), install with [npm][]:
 npm install rehype-react
 ```
 
-In Deno with [Skypack][]:
+In Deno with [`esm.sh`][esmsh]:
 
 ```js
-import rehypeReact from 'https://cdn.skypack.dev/rehype-react@7?dts'
+import rehypeReact from 'https://esm.sh/rehype-react@7'
 ```
 
-In browsers with [Skypack][]:
+In browsers with [`esm.sh`][esmsh]:
 
 ```html
 <script type="module">
-  import rehypeReact from 'https://cdn.skypack.dev/rehype-react@7?min'
+  import rehypeReact from 'https://esm.sh/rehype-react@7?bundle'
 </script>
 ```
 
@@ -252,7 +252,7 @@ abide by its terms.
 
 [npm]: https://docs.npmjs.com/cli/install
 
-[skypack]: https://www.skypack.dev
+[esmsh]: https://esm.sh
 
 [health]: https://github.com/rehypejs/.github
 
