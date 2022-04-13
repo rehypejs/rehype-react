@@ -1,6 +1,6 @@
 import test from 'tape'
 import React from 'react'
-import server from 'react-dom/server.js'
+import server from 'react-dom/server'
 import {unified} from 'unified'
 import {u} from 'unist-builder'
 import {h} from 'hastscript'
@@ -199,6 +199,7 @@ test('React ' + React.version, (t) => {
       })
       .stringify(u('root', [headingNode, h('p')])),
     React.createElement('div', {}, [
+      // @ts-expect-error: yeah it’s not okay per react types, but it works fine.
       React.createElement(Heading1, {key: 'h-2', node: headingNode}, undefined),
       React.createElement('p', {key: 'h-3'}, undefined)
     ]),

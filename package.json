@@ -47,19 +47,19 @@
   "dependencies": {
     "@mapbox/hast-util-table-cell-style": "^0.2.0",
     "@types/hast": "^2.0.0",
-    "@types/react": "^17.0.0",
+    "@types/react": "^18.0.0",
     "hast-to-hyperscript": "^10.0.0",
     "hast-util-whitespace": "^2.0.0",
     "unified": "^10.0.0"
   },
   "devDependencies": {
-    "@types/react-dom": "^17.0.0",
+    "@types/react-dom": "^18.0.0",
     "@types/tape": "^4.0.0",
     "c8": "^7.0.0",
     "hastscript": "^7.0.0",
     "prettier": "^2.0.0",
-    "react": "^17.0.0",
-    "react-dom": "^17.0.0",
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0",
     "remark": "^14.0.0",
     "remark-cli": "^10.0.0",
     "remark-preset-wooorm": "^9.0.0",
@@ -86,7 +86,11 @@
     "trailingComma": "none"
   },
   "xo": {
-    "prettier": true
+    "prettier": true,
+    "": "`xo` is wrong about file extensions",
+    "rules": {
+      "node/file-extension-in-import": "off"
+    }
   },
   "remarkConfig": {
     "plugins": [
