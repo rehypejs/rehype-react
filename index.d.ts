@@ -13,4 +13,4 @@ import type {Options} from './lib/index.js'
 declare const rehypeReact: Plugin<[Options], Root, ReactElement<unknown>>
 export default rehypeReact
 
-export {Options} from './lib/index.js'
+export type {Options} from './lib/index.js'

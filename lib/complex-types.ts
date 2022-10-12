@@ -1,11 +1,11 @@
 import type {ComponentType} from 'react'
 import type {Element} from 'hast'
 
-interface WithNode {
+type WithNode = {
   node: Element
 }
 
-export interface ComponentsWithNodeOptions {
+export type ComponentsWithNodeOptions = {
   /**
    * Expose hast elements as a `node` field in components
    */
@@ -21,7 +21,7 @@ export interface ComponentsWithNodeOptions {
   }>
 }
 
-export interface ComponentsWithoutNodeOptions {
+export type ComponentsWithoutNodeOptions = {
   /**
    * Expose hast elements as a `node` field in components.
    */
