@@ -17,7 +17,8 @@
 *   [Install](#install)
 *   [Use](#use)
 *   [API](#api)
-    *   [`unified().use(rehypeReact, options)`](#unifieduserehypereact-options)
+    *   [`unified().use(rehypeReactPlugin, options)`](#unifieduserehypereactplugin-options)
+    *   [`rehypeToReact(node, options)`](#rehypetoreactnode-options)
 *   [Types](#types)
 *   [Compatibility](#compatibility)
 *   [Security](#security)
@@ -64,14 +65,14 @@ npm install rehype-react
 In Deno with [`esm.sh`][esmsh]:
 
 ```js
-import rehypeReact from 'https://esm.sh/rehype-react@7'
+import { rehypeReactPlugin } from 'https://esm.sh/rehype-react@7'
 ```
 
 In browsers with [`esm.sh`][esmsh]:
 
 ```html
 <script type="module">
-  import rehypeReact from 'https://esm.sh/rehype-react@7?bundle'
+  import { rehypeReactPlugin } from 'https://esm.sh/rehype-react@7?bundle'
 </script>
 ```
 
@@ -83,7 +84,7 @@ Say our React app module `example.js` looks as follows:
 import {createElement, Fragment, useEffect, useState} from 'react'
 import {unified} from 'unified'
 import rehypeParse from 'rehype-parse'
-import rehypeReact from 'rehype-react'
+import { rehypeReactPlugin } from 'rehype-react'
 
 const text = `<h2>Hello, world!</h2>
 <p>Welcome to my page 👀</p>`
@@ -94,7 +95,7 @@ function useProcessor(text) {
   useEffect(() => {
     unified()
       .use(rehypeParse, {fragment: true})
-      .use(rehypeReact, {createElement, Fragment})
+      .use(rehypeReactPlugin, {createElement, Fragment})
       .process(text)
       .then((file) => {
         setContent(file.result)
@@ -118,12 +119,12 @@ Assuming that runs in Next.js, Create React App (CRA), or similar, we’d get:
 
 ## API
 
-This package exports no identifiers.
-The default export is `rehypeReact`.
+This package exports the following identifier : `TODO`.
+The default export is `rehypeReactPlugin`.
 
-### `unified().use(rehypeReact, options)`
+### `unified().use(rehypeReactPlugin, options)`
 
-Compile HTML to React nodes.
+Compile Hast Tree to React nodes. (Using `unified`'s plugin interface)
 
 > 👉 **Note**: this compiler returns a React node where compilers typically
 > return `string`.
@@ -173,6 +174,20 @@ React key prefix (`string`, default: `'h-'`).
 
 Pass the original hast node as `props.node` to custom React components
 (`boolean`, default: `false`).
+
+### `rehypeToReact(node, options)`
+
+Compile Hast tree **directly** to React nodes.
+
+##### `node`
+
+A [hast](https://github.com/syntax-tree/hast) node (tree). 
+
+Usually used in custom unified compiler (to use this compiler with a custom system, e.g. : Split the content into blocks, compile them and wrap this into a JavaScript Object).
+
+##### `options`
+
+Same as `options` in `rehypeReactPlugin`.
 
 ## Types
 

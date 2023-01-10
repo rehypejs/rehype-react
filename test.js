@@ -208,7 +208,7 @@ test('React ' + React.version, (t) => {
 
   t.deepEqual(
     rehypeToReact(u('root', [h('p')]), {
-      createElement: React.createElement,
+      createElement: React.createElement
     }),
     React.createElement('div', {}, [
       React.createElement('p', {key: 'h-1'}, undefined)
@@ -217,11 +217,11 @@ test('React ' + React.version, (t) => {
   )
 
   t.deepEqual(
-    rehypeToReact(u('root', [headingNode, h('p')]),{
-        createElement: React.createElement,
-        passNode: true,
-        components: {h1: Heading1}
-      }),
+    rehypeToReact(u('root', [headingNode, h('p')]), {
+      createElement: React.createElement,
+      passNode: true,
+      components: {h1: Heading1}
+    }),
     React.createElement('div', {}, [
       // @ts-expect-error: yeah it’s not okay per react types, but it works fine.
       React.createElement(Heading1, {key: 'h-2', node: headingNode}, undefined),
