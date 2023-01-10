@@ -38,8 +38,8 @@ export type ComponentsWithoutNodeOptions = {
   }>
 }
 
-// type-coverage:ignore-next-line
 export type UtilReplaceReturnType<
+  // type-coverage:ignore-next-line
   T extends (...a: any) => any,
   TypeNewReturn
 > = (...a: Parameters<T>) => TypeNewReturn
