@@ -110,7 +110,7 @@ export default function App() {
 }
 ```
 
-Assuming that runs in Next.js, Create React App (CRA), or similar, we’d get:
+Assuming that runs in Next.js, Create React App (CRA), or similar, we’d get :
 
 ```html
 <h2>Hello, world!</h2>
@@ -124,7 +124,8 @@ The default export is `rehypeReactPlugin`.
 
 ### `unified().use(rehypeReactPlugin, options)`
 
-Compile Hast Tree to React nodes. (Using `unified`'s plugin interface)
+Compile Hast Tree to React nodes.
+(Using `unified`’s plugin interface)
 
 > 👉 **Note**: this compiler returns a React node where compilers typically
 > return `string`.
@@ -181,9 +182,11 @@ Compile Hast tree **directly** to React nodes.
 
 ##### `node`
 
-A [hast](https://github.com/syntax-tree/hast) node (tree). 
+A [hast](https://github.com/syntax-tree/hast) node (tree).
 
-Usually used in custom unified compiler (to use this compiler with a custom system, e.g. : Split the content into blocks, compile them and wrap this into a JavaScript Object).
+Usually used in custom unified compiler.
+
+E.g.: Split the content into blocks, compile them and wrap it into a JS Object.
 
 ##### `options`
 
