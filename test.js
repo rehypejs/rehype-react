@@ -4,17 +4,17 @@ import server from 'react-dom/server'
 import {unified} from 'unified'
 import {u} from 'unist-builder'
 import {h} from 'hastscript'
-import rehypeReact from './index.js'
+import {rehypeReactPlugin, rehypeToReact} from './index.js'
 
 const options = {createElement: React.createElement}
-const processor = unified().use(rehypeReact, options)
+const processor = unified().use(rehypeReactPlugin, options)
 
 test('React ' + React.version, (t) => {
   t.throws(
     () => {
       // @ts-expect-error: options missing.
       unified()
-        .use(rehypeReact)
+        .use(rehypeReactPlugin)
         .stringify(u('root', [h('p')]))
     },
     /^TypeError: createElement is not a function$/,
@@ -90,7 +90,7 @@ test('React ' + React.version, (t) => {
 
   t.deepEqual(
     unified()
-      .use(rehypeReact, {
+      .use(rehypeReactPlugin, {
         createElement: React.createElement,
         Fragment: React.Fragment
       })
@@ -133,7 +133,7 @@ test('React ' + React.version, (t) => {
   t.deepEqual(
     server.renderToStaticMarkup(
       unified()
-        .use(rehypeReact, {
+        .use(rehypeReactPlugin, {
           createElement: React.createElement,
           components: {
             /** @param {object} props */
@@ -192,7 +192,7 @@ test('React ' + React.version, (t) => {
 
   t.deepEqual(
     unified()
-      .use(rehypeReact, {
+      .use(rehypeReactPlugin, {
         createElement: React.createElement,
         passNode: true,
         components: {h1: Heading1}
@@ -204,6 +204,30 @@ test('React ' + React.version, (t) => {
       React.createElement('p', {key: 'h-3'}, undefined)
     ]),
     'should expose node from node prop'
+  )
+
+  t.deepEqual(
+    rehypeToReact(u('root', [h('p')]), {
+      createElement: React.createElement,
+    }),
+    React.createElement('div', {}, [
+      React.createElement('p', {key: 'h-1'}, undefined)
+    ]),
+    'direct function - should transform a root'
+  )
+
+  t.deepEqual(
+    rehypeToReact(u('root', [headingNode, h('p')]),{
+        createElement: React.createElement,
+        passNode: true,
+        components: {h1: Heading1}
+      }),
+    React.createElement('div', {}, [
+      // @ts-expect-error: yeah it’s not okay per react types, but it works fine.
+      React.createElement(Heading1, {key: 'h-2', node: headingNode}, undefined),
+      React.createElement('p', {key: 'h-3'}, undefined)
+    ]),
+    'direct function - should expose node from node prop'
   )
 
   t.end()
