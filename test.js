@@ -171,13 +171,16 @@ test('React ' + React.version, (t) => {
   t.deepEqual(
     processor.stringify(
       u('root', [
-        h('table', {}, ['\n  ', h('tbody', {}, ['\n  ', h('tr', {})])])
+        h('table', {}, ['\n  ', h('tbody', {}, ['\n  ', h('tr', {}, ['\n  ', h('th', {}, ['\n  ']), h('td', {}, ['\n  '])])])])
       ])
     ),
     React.createElement('div', {}, [
       React.createElement('table', {key: 'h-1'}, [
         React.createElement('tbody', {key: 'h-2'}, [
-          React.createElement('tr', {key: 'h-3'}, undefined)
+          React.createElement('tr', {key: 'h-3'}, [
+            React.createElement('th', {key: 'h-4'}, ['\n  ']),
+            React.createElement('td', {key: 'h-5'}, ['\n  ']),
+          ])
         ])
       ])
     ]),
