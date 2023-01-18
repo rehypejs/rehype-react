@@ -171,7 +171,13 @@ test('React ' + React.version, (t) => {
   t.deepEqual(
     processor.stringify(
       u('root', [
-        h('table', {}, ['\n  ', h('tbody', {}, ['\n  ', h('tr', {}, ['\n  ', h('th', {}, ['\n  ']), h('td', {}, ['\n  '])])])])
+        h('table', {}, [
+          '\n  ',
+          h('tbody', {}, [
+            '\n  ',
+            h('tr', {}, ['\n  ', h('th', {}, ['\n  ']), h('td', {}, ['\n  '])])
+          ])
+        ])
       ])
     ),
     React.createElement('div', {}, [
@@ -179,7 +185,7 @@ test('React ' + React.version, (t) => {
         React.createElement('tbody', {key: 'h-2'}, [
           React.createElement('tr', {key: 'h-3'}, [
             React.createElement('th', {key: 'h-4'}, ['\n  ']),
-            React.createElement('td', {key: 'h-5'}, ['\n  ']),
+            React.createElement('td', {key: 'h-5'}, ['\n  '])
           ])
         ])
       ])
