@@ -215,5 +215,38 @@ test('React ' + React.version, (t) => {
     'should expose node from node prop'
   )
 
+  t.deepEqual(
+    unified()
+      .use(rehypeReact, {
+        createElement: React.createElement,
+        fixTableCellAlign: false
+      })
+      .stringify(
+        u('root', [
+          h('table', {align: 'top'}, [
+            '\n  ',
+            h('tbody', {}, [
+              '\n  ',
+              h('tr', {}, [
+                h('th', {}, ['\n  ']),
+                h('td', {align: 'center'}, ['\n  '])
+              ])
+            ])
+          ])
+        ])
+      ),
+    React.createElement('div', {}, [
+      React.createElement('table', {key: 'h-1', align: 'top'}, [
+        React.createElement('tbody', {key: 'h-2'}, [
+          React.createElement('tr', {key: 'h-3'}, [
+            React.createElement('th', {key: 'h-4'}, ['\n  ']),
+            React.createElement('td', {key: 'h-5', align: 'center'}, ['\n  '])
+          ])
+        ])
+      ])
+    ]),
+    'should respect mapDepricatedTableCellAttrsToInlineCss option'
+  )
+
   t.end()
 })
