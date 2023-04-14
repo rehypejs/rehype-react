@@ -177,9 +177,9 @@ Pass the original hast node as `props.node` to custom React components
 ###### `options.fixTableCellAlign`
 
 Fix obsolete align attributes on table cells by turning them
-into inline styles.
+into inline styles (`boolean`, default: `true`).
 Keep it on when working with markdown, turn it off when working
-with markup for emails (`boolean`, default: `true`).
+with markup for emails.
 
 ## Types
 
