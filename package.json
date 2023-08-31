@@ -56,10 +56,10 @@
   },
   "devDependencies": {
     "@types/react-dom": "^18.0.0",
-    "@types/tape": "^4.0.0",
-    "c8": "^7.0.0",
+    "@types/tape": "^5.0.0",
+    "c8": "^8.0.0",
     "hastscript": "^7.0.0",
-    "prettier": "^2.0.0",
+    "prettier": "^3.0.0",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
     "remark": "^14.0.0",
@@ -70,11 +70,11 @@
     "type-coverage": "^2.0.0",
     "typescript": "^5.0.0",
     "unist-builder": "^3.0.0",
-    "xo": "^0.54.0"
+    "xo": "^0.56.0"
   },
   "scripts": {
     "build": "rimraf \"lib/*.d.ts\" \"test.d.ts\" && tsc && type-coverage",
-    "format": "remark . -qfo && prettier . -w --loglevel warn && xo --fix",
+    "format": "remark . -qfo && prettier . -w --log-level warn && xo --fix",
     "test-api": "node --conditions development test.js",
     "test-coverage": "c8 --check-coverage --branches 100 --functions 100 --lines 100 --statements 100 --reporter lcov npm run test-api",
     "test": "npm run build && npm run format && npm run test-coverage"
