@@ -30,7 +30,7 @@ test('React ' + React.version, (t) => {
   )
 
   t.deepEqual(
-    // @ts-expect-error: plugin is typed as only supporting roots.
+    // To do: this should error, because it’s not a root.
     processor.stringify(h('p')),
     React.createElement('p', {key: 'h-1'}, undefined),
     'should transform an element'
@@ -132,6 +132,7 @@ test('React ' + React.version, (t) => {
 
   t.deepEqual(
     server.renderToStaticMarkup(
+      // @ts-expect-error: to do: figure out.
       unified()
         .use(rehypeReact, {
           createElement: React.createElement,
