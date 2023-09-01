@@ -11,8 +11,8 @@ import React from 'react'
 import * as dev from 'react/jsx-dev-runtime'
 import * as prod from 'react/jsx-runtime'
 import server from 'react-dom/server'
+import rehypeReact from 'rehype-react'
 import {unified} from 'unified'
-import rehypeReact from './index.js'
 
 /** @type {{Fragment: Fragment, jsx: Jsx, jsxs: Jsx}} */
 // @ts-expect-error: the react types are missing.
@@ -24,7 +24,7 @@ const development = {Fragment: dev.Fragment, jsxDEV: dev.jsxDEV}
 
 test('React ' + React.version, async function (t) {
   await t.test('should expose the public api', async function () {
-    assert.deepEqual(Object.keys(await import('./index.js')).sort(), [
+    assert.deepEqual(Object.keys(await import('rehype-react')).sort(), [
       'default'
     ])
   })
