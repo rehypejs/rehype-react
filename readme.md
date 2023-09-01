@@ -66,14 +66,14 @@ npm install rehype-react
 In Deno with [`esm.sh`][esmsh]:
 
 ```js
-import rehypeReact from 'https://esm.sh/rehype-react@7'
+import rehypeReact from 'https://esm.sh/rehype-react@8'
 ```
 
 In browsers with [`esm.sh`][esmsh]:
 
 ```html
 <script type="module">
-  import rehypeReact from 'https://esm.sh/rehype-react@7?bundle'
+  import rehypeReact from 'https://esm.sh/rehype-react@8?bundle'
 </script>
 ```
 
