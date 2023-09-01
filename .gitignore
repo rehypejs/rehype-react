@@ -4,5 +4,4 @@ node_modules/
 *.d.ts
 *.log
 yarn.lock
-!/lib/complex-types.d.ts
 !/index.d.ts
