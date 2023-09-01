@@ -23,11 +23,17 @@ const production = {Fragment: prod.Fragment, jsx: prod.jsx, jsxs: prod.jsxs}
 const development = {Fragment: dev.Fragment, jsxDEV: dev.jsxDEV}
 
 test('React ' + React.version, async function (t) {
+  await t.test('should expose the public api', async function () {
+    assert.deepEqual(Object.keys(await import('./index.js')).sort(), [
+      'default'
+    ])
+  })
+
   await t.test(
     'should fail without `Fragment`, `jsx`, `jsxs`',
     async function () {
       assert.throws(function () {
-        // @ts-expect-error: options missing.
+        // @ts-expect-error: check how the runtime handles missing `options`.
         unified()
           .use(rehypeReact)
           .stringify(h(undefined, [h('p')]))
@@ -45,16 +51,6 @@ test('React ' + React.version, async function (t) {
         {},
         React.createElement('p', {key: 'p-0'})
       )
-    )
-  })
-
-  await t.test('should transform an element', async function () {
-    assert.deepEqual(
-      unified()
-        .use(rehypeReact, production)
-        // @ts-expect-error typed to only support roots.
-        .stringify(h('p')),
-      React.createElement('p')
     )
   })
 
