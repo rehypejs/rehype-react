@@ -56,8 +56,8 @@ If you want to use JavaScript and JSX *inside* markdown files, use [MDX][].
 
 ## Install
 
-This package is [ESM only](https://gist.github.com/sindresorhus/a39789f98801d908bbc7ff3ecc99d99c).
-In Node.js (version 12.20+, 14.14+, or 16.0+), install with [npm][]:
+This package is [ESM only][esm].
+In Node.js (version 16+), install with [npm][]:
 
 ```sh
 npm install rehype-react
@@ -133,11 +133,20 @@ export default function App() {
 ## API
 
 This package exports no identifiers.
-The default export is `rehypeReact`.
+The default export is [`rehypeReact`][api-rehype-react].
 
 ### `unified().use(rehypeReact, options)`
 
 Turn HTML into preact, react, solid, svelte, vue, etc.
+
+###### Parameters
+
+*   `options` ([`Options`][api-options], required)
+    — configuration
+
+###### Returns
+
+Nothing (`undefined`).
 
 ###### Result
 
@@ -161,15 +170,6 @@ options:
 | React     | `'react'`                  | `'dom'`                 |
 | Solid     | `'html'`                   | `'css'`                 |
 | Vue       | `'html'`                   | `'dom'`                 |
-
-###### Parameters
-
-*   `options` ([`Options`][api-options], required)
-    — configuration
-
-###### Returns
-
-Nothing (`undefined`).
 
 ### `Components`
 
@@ -230,10 +230,13 @@ More advanced types are exposed from
 
 ## Compatibility
 
-Projects maintained by the unified collective are compatible with all maintained
+Projects maintained by the unified collective are compatible with maintained
 versions of Node.js.
-As of now, that is Node.js 12.20+, 14.14+, and 16.0+.
-Our projects sometimes work with older versions, but this is not guaranteed.
+
+When we cut a new major release, we drop support for unmaintained versions of
+Node.
+This means we try to keep the current release line, `rehype-react@^7`,
+compatible with Node.js 12.
 
 This plugin works with `rehype-parse` version 3+, `rehype` version 4+, and
 `unified` version 9+, and React 16+.
@@ -284,9 +287,9 @@ abide by its terms.
 
 [downloads]: https://www.npmjs.com/package/rehype-react
 
-[size-badge]: https://img.shields.io/bundlephobia/minzip/rehype-react.svg
+[size-badge]: https://img.shields.io/bundlejs/size/rehype-react
 
-[size]: https://bundlephobia.com/result?p=rehype-react
+[size]: https://bundlejs.com/?q=rehype-react
 
 [sponsors-badge]: https://opencollective.com/unified/sponsors/badge.svg
 
@@ -300,15 +303,17 @@ abide by its terms.
 
 [npm]: https://docs.npmjs.com/cli/install
 
+[esm]: https://gist.github.com/sindresorhus/a39789f98801d908bbc7ff3ecc99d99c
+
 [esmsh]: https://esm.sh
 
 [health]: https://github.com/rehypejs/.github
 
-[contributing]: https://github.com/rehypejs/.github/blob/HEAD/contributing.md
+[contributing]: https://github.com/rehypejs/.github/blob/main/contributing.md
 
-[support]: https://github.com/rehypejs/.github/blob/HEAD/support.md
+[support]: https://github.com/rehypejs/.github/blob/main/support.md
 
-[coc]: https://github.com/rehypejs/.github/blob/HEAD/code-of-conduct.md
+[coc]: https://github.com/rehypejs/.github/blob/main/code-of-conduct.md
 
 [license]: license
 
@@ -320,24 +325,26 @@ abide by its terms.
 
 [rhysd]: https://rhysd.github.io
 
-[typescript]: https://www.typescriptlang.org
-
-[unified]: https://github.com/unifiedjs/unified
-
-[rehype]: https://github.com/rehypejs/rehype
-
-[xss]: https://en.wikipedia.org/wiki/Cross-site_scripting
-
 [hast-util-to-jsx-runtime]: https://github.com/syntax-tree/hast-util-to-jsx-runtime
 
-[rehype-sanitize]: https://github.com/rehypejs/rehype-sanitize
+[mdx]: https://github.com/mdx-js/mdx/
 
 [react-markdown]: https://github.com/remarkjs/react-markdown
 
 [react-remark]: https://github.com/remarkjs/react-remark
 
-[mdx]: https://github.com/mdx-js/mdx/
+[rehype]: https://github.com/rehypejs/rehype
+
+[rehype-sanitize]: https://github.com/rehypejs/rehype-sanitize
+
+[typescript]: https://www.typescriptlang.org
+
+[unified]: https://github.com/unifiedjs/unified
+
+[xss]: https://en.wikipedia.org/wiki/Cross-site_scripting
 
 [api-components]: #components
 
 [api-options]: #options
+
+[api-rehype-react]: #unifieduserehypereact-options
