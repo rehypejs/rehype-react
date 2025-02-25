@@ -40,8 +40,9 @@ This is a rehype plugin that adds a compiler to compile hast to a JSX runtime.
 
 ## When should I use this?
 
-This plugin adds a compiler for rehype, which means that it turns the final
-HTML (hast) syntax tree into something else (in this case, a `JSX.Element`).
+This plugin adds a compiler for rehype,
+which means that it turns the final HTML (hast) syntax tree into something else
+(in this case `JSX.Element`).
 It’s useful when you’re already using unified (whether remark or rehype) or are
 open to learning about ASTs (they’re powerful!) and want to render content in
 your app.
@@ -60,7 +61,8 @@ use [MDX][github-mdx].
 ## Install
 
 This package is [ESM only][github-gist-esm].
-In Node.js (version 16+), install with [npm][npmjs-install]:
+In Node.js (version 16+),
+install with [npm][npmjs-install]:
 
 ```sh
 npm install rehype-react
@@ -86,20 +88,24 @@ Say our React app `example.js` looks as follows:
 
 ```js
 import {Fragment, createElement, useEffect, useState} from 'react'
-import * as prod from 'react/jsx-runtime'
+import production from 'react/jsx-runtime'
 import rehypeParse from 'rehype-parse'
 import rehypeReact from 'rehype-react'
 import {unified} from 'unified'
 
-// @ts-expect-error: the react types are missing.
-const production = {Fragment: prod.Fragment, jsx: prod.jsx, jsxs: prod.jsxs}
+const text = `
+<h2>Bonjour!</h2>
+<p>Mercure est la planète la plus proche du Soleil et la moins massive du Système solaire.</p>
+`
 
-const text = `<h2>Hello, world!</h2>
-<p>Welcome to my page 👀</p>`
+export default function App() {
+  return useProcessor(text)
+}
+
 
 /**
  * @param {string} text
- * @returns {JSX.Element}
+ * @returns {React.JSX.Element}
  */
 function useProcessor(text) {
   const [Content, setContent] = useState(createElement(Fragment))
@@ -120,17 +126,14 @@ function useProcessor(text) {
 
   return Content
 }
-
-export default function App() {
-  return useProcessor(text)
-}
 ```
 
-…running that in Next.js or similar, we’d get:
+…running that in Next.js or similar,
+we’d get:
 
 ```html
-<h2>Hello, world!</h2>
-<p>Welcome to my page 👀</p>
+<h2>Bonjour!</h2>
+<p>Mercure est la planète la plus proche du Soleil et la moins massive du Système solaire.</p>
 ```
 
 ## API
@@ -144,7 +147,9 @@ Turn HTML into preact, react, solid, svelte, vue, etc.
 
 ###### Parameters
 
-* `options` ([`Options`][api-options], required)
+* `options`
+  ([`Options`][api-options],
+  required)
   — configuration
 
 ###### Returns
@@ -155,17 +160,19 @@ Nothing (`undefined`).
 
 This plugin registers a compiler that returns a `JSX.Element` where compilers
 typically return `string`.
-When using `.stringify` on `unified`, the result is such a `JSX.Element`.
-When using `.process` (or `.processSync`), the result is available at
-`file.result`.
+When using `.stringify` on `unified`,
+the result is such a `JSX.Element`.
+When using `.process` (or `.processSync`),
+the result is available at `file.result`.
 
 ###### Frameworks
 
-There are differences between what JSX frameworks accept, such as whether they
-accept `class` or `className`, or `background-color` or `backgroundColor`.
+There are differences between what JSX frameworks accept,
+such as whether they accept `class` or `className`,
+or `background-color` or `backgroundColor`.
 
-For hast elements transformed by this project, this is be handled through
-options:
+For hast elements transformed by this project,
+this is be handled through options:
 
 | Framework | `elementAttributeNameCase` | `stylePropertyNameCase` |
 | --------- | -------------------------- | ----------------------- |
@@ -188,34 +195,44 @@ Configuration (TypeScript type).
 
 ###### Fields
 
-* `Fragment` ([`Fragment` from
+* `Fragment`
+  ([`Fragment` from
   `hast-util-to-jsx-runtime`][github-hast-util-to-jsx-runtime-fragment],
   required)
   — fragment
-* `jsx` ([`Jsx` from
+* `jsx`
+  ([`Jsx` from
   `hast-util-to-jsx-runtime`][github-hast-util-to-jsx-runtime-jsx],
   required in production)
   — dynamic JSX
-* `jsxs` ([`Jsx` from
+* `jsxs`
+  ([`Jsx` from
   `hast-util-to-jsx-runtime`][github-hast-util-to-jsx-runtime-jsx],
   required in production)
   — static JSX
-* `jsxDEV` ([`JsxDev` from
+* `jsxDEV`
+  ([`JsxDev` from
   `hast-util-to-jsx-runtime`](https://github.com/syntax-tree/hast-util-to-jsx-runtime#jsxdev),
   required in development)
   — development JSX
-* `components` ([`Partial<Components>`][api-components], optional)
+* `components`
+  ([`Partial<Components>`][api-components], optional)
   — components to use
-* `development` (`boolean`, default: `false`)
+* `development`
+  (`boolean`, default: `false`)
   — whether to use `jsxDEV` when on or `jsx` and `jsxs` when off
-* `elementAttributeNameCase` (`'html'` or `'react'`, default: `'react'`)
+* `elementAttributeNameCase`
+  (`'html'` or `'react'`, default: `'react'`)
   — specify casing to use for attribute names
-* `passNode` (`boolean`, default: `false`)
+* `passNode`
+  (`boolean`, default: `false`)
   — pass the hast element node to components
-* `space` (`'html'` or `'svg'`, default: `'html'`)
-  — whether `tree` is in the `'html'` or `'svg'` space, when an `<svg>`
-  element is found in the HTML space, this package already automatically
-  switches to and from the SVG space when entering and exiting it
+* `space`
+  (`'html'` or `'svg'`, default: `'html'`)
+  — whether `tree` is in the `'html'` or `'svg'` space,
+  when an `<svg>` element is found in the HTML space,
+  this package already automatically switches to and from the SVG space when
+  entering and exiting it
 * `stylePropertyNameCase`
   (`'css'` or `'dom'`, default: `'dom'`)
   — specify casing to use for property names in `style` objects
@@ -236,13 +253,16 @@ More advanced types are exposed from
 Projects maintained by the unified collective are compatible with maintained
 versions of Node.js.
 
-When we cut a new major release, we drop support for unmaintained versions of
-Node.
-This means we try to keep the current release line, `rehype-react@^8`,
+When we cut a new major release,
+we drop support for unmaintained versions of Node.
+This means we try to keep the current release line,
+`rehype-react@8`,
 compatible with Node.js 17.
 
-This plugin works with `rehype-parse` version 3+, `rehype` version 4+, and
-`unified` version 9+, and React 18+.
+This plugin works with `rehype-parse` version 3+,
+`rehype` version 4+,
+and `unified` version 9+,
+and React 18+.
 
 ## Security
 
@@ -273,14 +293,16 @@ See
 for ways to get help.
 
 This project has a [code of conduct][health-coc].
-By interacting with this repository, organization, or community you agree to
-abide by its terms.
+By interacting with this repository,
+organization,
+or community you agree to abide by its terms.
 
 ## License
 
 [MIT][file-license] © [Titus Wormer][wooorm],
 modified by [Tom MacWright][macwright],
-[Mapbox][], and [rhysd][].
+[Mapbox][],
+and [rhysd][].
 
 <!-- Definitions -->
 
