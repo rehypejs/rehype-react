@@ -2,6 +2,14 @@ import type {Root} from 'hast'
 import type {Plugin} from 'unified'
 import type {Options} from './lib/index.js'
 
+/**
+ * Conditional type for a node object.
+ */
+// @ts-ignore: conditionally defined;
+// it used to be possible to detect that with `any extends X ? X : Y`
+// but no longer.
+type JsxElement = JSX.Element
+
 export type {Components, Options} from 'hast-util-to-jsx-runtime'
 
 /**
@@ -36,12 +44,12 @@ export type {Components, Options} from 'hast-util-to-jsx-runtime'
  * @returns
  *   Nothing.
  */
-declare const rehypeReact: Plugin<[Options], Root, JSX.Element>
+declare const rehypeReact: Plugin<[Options], Root, JsxElement>
 export default rehypeReact
 
 // Register the result type.
 declare module 'unified' {
   interface CompileResultMap {
-    JsxElement: JSX.Element
+    JsxElement: JsxElement
   }
 }
