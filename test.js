@@ -165,8 +165,8 @@ test('React ' + React.version, async function (t) {
           .use(rehypeReact, {
             ...production,
             components: {
-              h1(props) {
-                return React.createElement('h2', props)
+              h1(properties) {
+                return React.createElement('h2', properties)
               }
             }
           })
