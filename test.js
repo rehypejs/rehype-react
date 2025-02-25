@@ -165,6 +165,9 @@ test('React ' + React.version, async function (t) {
           .use(rehypeReact, {
             ...production,
             components: {
+              /**
+               * @param {React.HTMLAttributes<HTMLHeadingElement>} properties
+               */
               h1(properties) {
                 return React.createElement('h2', properties)
               }
