@@ -1,57 +1,28 @@
 {
-  "name": "rehype-react",
-  "description": "rehype plugin to transform to React",
-  "version": "8.0.0",
-  "license": "MIT",
-  "keywords": [
-    "hast",
-    "html",
-    "plugin",
-    "preact",
-    "react",
-    "rehype",
-    "rehype-plugin",
-    "solid",
-    "svelte",
-    "unified",
-    "vue"
-  ],
-  "repository": "rehypejs/rehype-react",
-  "bugs": "https://github.com/rehypejs/rehype-react/issues",
-  "funding": {
-    "type": "opencollective",
-    "url": "https://opencollective.com/unified"
-  },
   "author": "rhysd <lin90162@yahoo.co.jp>",
+  "bugs": "https://github.com/rehypejs/rehype-react/issues",
   "contributors": [
-    "Titus Wormer <tituswormer@gmail.com> (https://wooorm.com)",
-    "Tom MacWright <tom@macwright.org>",
-    "rhysd <lin90162@yahoo.co.jp>",
-    "Juho Vepsalainen <bebraw@gmail.com>",
+    "Artem Sapegin <artem@sapegin.ru>",
+    "Christian Murphy <christian.murphy.42@gmail.com>",
     "Ciaran Wood <cyrzinsomnia@gmail.com>",
-    "Takuya Matsuyama <nora@odoruinu.net>",
+    "David Clark <dclark@mapbox.com>",
     "Jason Trill <jason@jasontrill.com>",
     "Jeremy Stucki <jeremy@interactivethings.com>",
+    "Juho Vepsalainen <bebraw@gmail.com>",
+    "Takuya Matsuyama <nora@odoruinu.net>",
+    "Titus Wormer <tituswormer@gmail.com> (https://wooorm.com)",
     "Tsuyusato Kitsune <make.just.on@gmail.com>",
-    "David Clark <dclark@mapbox.com>",
     "Tucker Whitehouse <Tucker.Whitehouse@LibertyMutual.com>",
+    "Tom MacWright <tom@macwright.org>",
     "kthjm <toxictoxer@gmail.com>",
-    "Artem Sapegin <artem@sapegin.ru>",
-    "Christian Murphy <christian.murphy.42@gmail.com>"
-  ],
-  "sideEffects": false,
-  "type": "module",
-  "exports": "./index.js",
-  "files": [
-    "lib/",
-    "index.d.ts",
-    "index.js"
+    "rhysd <lin90162@yahoo.co.jp>"
   ],
   "dependencies": {
     "@types/hast": "^3.0.0",
     "hast-util-to-jsx-runtime": "^2.0.0",
     "unified": "^11.0.0"
   },
+  "description": "rehype plugin to transform to React",
   "devDependencies": {
     "@types/node": "^22.0.0",
     "@types/react": "^19.0.0",
@@ -67,14 +38,31 @@
     "typescript": "^5.0.0",
     "xo": "^0.60.0"
   },
-  "scripts": {
-    "build": "tsc --build --clean && tsc --build && type-coverage",
-    "format": "remark . --frail --output --quiet && prettier . --log-level warn --write && xo --fix",
-    "prepack": "npm run build && npm run format",
-    "test": "npm run build && npm run format && npm run test-coverage",
-    "test-api": "node --conditions development test.js",
-    "test-coverage": "c8 --100 --check-coverage --reporter lcov npm run test-api"
+  "exports": "./index.js",
+  "files": [
+    "index.d.ts",
+    "index.js",
+    "lib/"
+  ],
+  "funding": {
+    "type": "opencollective",
+    "url": "https://opencollective.com/unified"
   },
+  "keywords": [
+    "hast",
+    "html",
+    "plugin",
+    "preact",
+    "react",
+    "rehype-plugin",
+    "rehype",
+    "solid",
+    "svelte",
+    "unified",
+    "vue"
+  ],
+  "license": "MIT",
+  "name": "rehype-react",
   "prettier": {
     "bracketSpacing": false,
     "singleQuote": true,
@@ -88,12 +76,21 @@
       "remark-preset-wooorm"
     ]
   },
+  "repository": "rehypejs/rehype-react",
+  "scripts": {
+    "build": "tsc --build --clean && tsc --build && type-coverage",
+    "format": "remark --frail --output --quiet -- . && prettier --log-level warn --write -- . && xo --fix",
+    "test-api": "node --conditions development test.js",
+    "test-coverage": "c8 --100 --reporter lcov -- npm run test-api",
+    "test": "npm run build && npm run format && npm run test-coverage"
+  },
+  "sideEffects": false,
   "typeCoverage": {
     "atLeast": 100,
-    "detail": true,
-    "ignoreCatch": true,
     "strict": true
   },
+  "type": "module",
+  "version": "8.0.0",
   "xo": {
     "overrides": [
       {
