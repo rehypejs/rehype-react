@@ -1,26 +1,12 @@
-/**
- * @typedef {import('hast-util-to-jsx-runtime').Fragment} Fragment
- * @typedef {import('hast-util-to-jsx-runtime').Jsx} Jsx
- * @typedef {import('hast-util-to-jsx-runtime').JsxDev} JsxDev
- */
-
 import assert from 'node:assert/strict'
 import test from 'node:test'
 import {h} from 'hastscript'
 import React from 'react'
-import * as dev from 'react/jsx-dev-runtime'
-import * as prod from 'react/jsx-runtime'
+import * as development from 'react/jsx-dev-runtime'
+import * as production from 'react/jsx-runtime'
 import server from 'react-dom/server'
 import rehypeReact from 'rehype-react'
 import {unified} from 'unified'
-
-/** @type {{Fragment: Fragment, jsx: Jsx, jsxs: Jsx}} */
-// @ts-expect-error: the react types are missing.
-const production = {Fragment: prod.Fragment, jsx: prod.jsx, jsxs: prod.jsxs}
-
-/** @type {{Fragment: Fragment, jsxDEV: JsxDev}} */
-// @ts-expect-error: the react types are missing.
-const development = {Fragment: dev.Fragment, jsxDEV: dev.jsxDEV}
 
 test('React ' + React.version, async function (t) {
   await t.test('should expose the public api', async function () {
@@ -33,8 +19,8 @@ test('React ' + React.version, async function (t) {
     'should fail without `Fragment`, `jsx`, `jsxs`',
     async function () {
       assert.throws(function () {
-        // @ts-expect-error: check how the runtime handles missing `options`.
         unified()
+          // @ts-expect-error: check how the runtime handles missing `options`.
           .use(rehypeReact)
           .stringify(h(undefined, [h('p')]))
       }, /Expected `Fragment` in options/)
